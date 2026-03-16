@@ -1,0 +1,10 @@
+{% extends "accounts/base_auth.html" %}
+{% block title %}Redirecting{% endblock %}
+{% block content %}
+<div class="card center">
+  <div class="logo"></div>
+  <p style="font-weight:600">Redirecting to your Dashboard...</p>
+  <p class="muted">Please wait.</p>
+  <meta http-equiv="refresh" content="2;url=/admin/">
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "accounts/base_auth.html" %}
+{% block title %}Admin Login{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="logo"></div>
+  <h1>Admin Sign In</h1>
+  <p class="sub">Use this page to access the Django admin area.</p>
+  {% if form.errors %}<ul class="errors">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+  <form method="post">
+    {% csrf_token %}
+    <div class="field"><label>Admin Username</label>{{ form.username }}</div>
+    <div class="field"><label>Password</label>{{ form.password }}</div>
+    <button class="btn" type="submit">Sign in to admin</button>
+  </form>
+  <p class="center muted" style="margin-top:12px">Standard user? <a class="link" href="{% url 'accounts:login' %}">Go to user login</a></p>
+</div>
+{% endblock %}

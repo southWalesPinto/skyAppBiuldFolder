@@ -37,6 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
+    'audit',
+    'meetings',
+    'messaging',
+    'org',
+    'projects',
+    'teams',
+    
 ]
 
 MIDDLEWARE = [
@@ -115,3 +123,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+AUTH_USER_MODEL = "accounts.User"
+LOGIN_URL = "/accounts/login/"
+LOGIN_REDIRECT_URL = "/accounts/redirecting/"
+LOGOUT_REDIRECT_URL = "/accounts/signed-out/"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

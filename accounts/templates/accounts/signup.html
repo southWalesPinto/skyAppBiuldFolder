@@ -1,0 +1,27 @@
+{% extends "accounts/base_auth.html" %}
+{% block title %}Sign Up{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="logo"></div>
+  <h1>Create Your Account</h1>
+  <p class="sub">Join the platform and start collaborating.</p>
+  {% if form.errors %}
+  <ul class="errors">
+    {% for field in form %}{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}{% endfor %}
+    {% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+  <form method="post">
+    {% csrf_token %}
+    <div class="field"><label>Your Name</label>{{ form.username }}</div>
+    <div class="field"><label>Email Address</label>{{ form.email }}</div>
+    <div class="field"><label>User Type</label>{{ form.user_type }}</div>
+    <div class="field"><label>Phone Number</label>{{ form.phone_number }}</div>
+    <div class="field"><label>Notes</label>{{ form.notes }}</div>
+    <div class="field"><label>Password</label>{{ form.password1 }}</div>
+    <div class="field"><label>Confirm Password</label>{{ form.password2 }}</div>
+    <button class="btn" type="submit">Create account</button>
+  </form>
+  <p class="center muted" style="margin-top:12px">Already have an account? <a class="link" href="{% url 'accounts:login' %}">Sign in</a></p>
+</div>
+{% endblock %}
