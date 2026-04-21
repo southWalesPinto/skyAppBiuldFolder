@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Meetings</title>
+</head>
+<body>
+    <h1>All Meetings</h1>
+
+    <p><a href="/meetings/create/">Create New Meeting</a></p>
+    <p>
+        <a href="/meetings/upcoming/">Upcoming</a> |
+        <a href="/meetings/weekly/">Weekly</a> |
+        <a href="/meetings/monthly/">Monthly</a>
+    </p>
+
+    {% if meetings %}
+        <ul>
+            {% for meeting in meetings %}
+                <li>
+                    <strong>{{ meeting.title }}</strong><br>
+                    Date: {{ meeting.date }}<br>
+                    Time: {{ meeting.time }}<br>
+                    Platform: {{ meeting.platform }}<br>
+                    Message: {{ meeting.message }}
+                </li>
+                <br>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No meetings found.</p>
+    {% endif %}
+</body>
+</html>
