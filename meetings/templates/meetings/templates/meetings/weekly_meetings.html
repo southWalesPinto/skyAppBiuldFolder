@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weekly Meetings</title>
+</head>
+<body>
+    <h1>Weekly Meetings</h1>
+
+    <ul>
+        {% for meeting in meetings %}
+            <li>{{ meeting.title }} - {{ meeting.date }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/meetings/">Back</a>
+</body>
+</html>
