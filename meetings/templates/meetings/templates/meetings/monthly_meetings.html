@@ -1,0 +1,9 @@
+<h1>Monthly Meetings</h1>
+
+<ul>
+{% for meeting in meetings %}
+    <li>{{ meeting.title }} - {{ meeting.date }}</li>
+{% endfor %}
+</ul>
+
+<a href="/meetings/">Back</a>
