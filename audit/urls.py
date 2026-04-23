@@ -5,3 +5,6 @@ from . import views
 app_name = "audit"
 
 
+urlpatterns = [
+    path("report/", views.AuditLogView.as_view(), name="report"),
+]
