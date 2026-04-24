@@ -5,15 +5,18 @@ User = get_user_model()
 
 
 class AuditLog(models.Model):
-    aud_number = models.CharField(max_length=100, unique=True)
-    action = models.CharField(max_length=100)
+    id = models.CharField(max_length=100, unique=True)
+    object_id = models.CharField(max_length=100)
+    object_repr = models.CharField(max_length=200)
+    action_flag = models.CharField(max_length=100)
+    change_message = models.TextField(blank=True)
+    content_type = models.ForeignKey("contenttypes.ContentType", on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    details = models.TextField(blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
+    action_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        db_table = "auditLog"
-        ordering = ["-timestamp"]
+        db_table = "django_admin_log"
+        ordering = ["-action_time"]
 
     def __str__(self) -> str:
-        return self.aud_number
+        return self.id

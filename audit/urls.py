@@ -6,5 +6,8 @@ app_name = "audit"
 
 
 urlpatterns = [
-    path("report/", views.AuditLogView.as_view(), name="report"),
+    path("report/", views.AuditLogView, name="report"),
+
+    ## For testing purposes
+    path("test/", views.BaseView, name="base"),
 ]

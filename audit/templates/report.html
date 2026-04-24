@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audit Report</title>
-</head>
+{% block title %}Audit Report{% endblock %}
 
-<body>
-    <h1>Audit Report</h1>
-</body>
-
-</html>
+{% block content %}
+    <ul>
+        {% for log in logs %}
+        <li>{{ log }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

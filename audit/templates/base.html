@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', Arial, sans-serif;
+        }
+
+        #title {
+            background-color: #FFFFFF;
+            height: 77px;
+        }
+
+        #title h1 {
+            display: inline-block;
+            margin: 0 auto;
+            font-size: 24px;
+            position: sticky;
+            top: 20px;
+            left: 280px;
+        }
+
+        #title-right {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            width: 300px;
+            height: 50px;
+            float: right;
+            margin: 20px 20px 0 0;
+        }
+
+        #title-right p {
+            display: inline-block;
+            margin: 0 0 0 5px;
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background-color: #1062FE;
+            padding: 0;
+            float: left;
+        }
+
+        #sidebar h2 {
+            padding-left: 20px;
+            font-size: 20px;
+            color: #fff;
+        }
+
+        #sidebar-title {
+            display: flex;
+            align-items: center;
+            padding: 0 0 0 15px;
+            height: 69px;
+        }
+
+        #sidebar-title .logo {
+            height: 35px;
+            width: 35px;
+        }
+
+        #main-content {
+            display: flex;
+            flex-direction: column;
+            margin-left: 250px;
+            height: 100vh;
+        }
+
+        .nav a {
+            height: 20px;
+            display: flex;
+            align-items: center;
+            padding: 15px 0 15px 15px;
+            margin-right: 10px;
+            margin-left: 10px;
+            border-radius: 7px;
+            color: #fff;
+            font-weight: 300;
+            text-decoration: none;
+        }
+
+        .nav a:hover {
+            background-color: #2979FF;
+        }
+
+        .nav p {
+            margin: 0;
+            padding-left: 25px;
+            display: inline-block;
+        }
+
+        .logo {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background: #6b7280;
+            margin: 0;
+        }
+
+        #title-right .logo {
+            height: 30px;
+            width: 30px;
+            margin: 0 15px 0 15px;
+        }
+
+        hr {
+            height: 1px;
+            background-color: rgb(166, 193, 243);
+        }
+
+        #content {
+            padding: 20px;
+            background-color: #F4F7FB;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="sidebar">
+        <div id="sidebar-title">
+            <div class="logo"></div>
+            <h2>Open Sky</h2>
+        </div>
+        <hr>
+        <div class="nav">
+            <a href="#">
+                <div class="logo"></div>
+                <p>Dashboard</p>
+            </a>
+            <a href="#">
+                <div class="logo"></div>
+                <p>Team Management</p>
+            </a>
+            <a href="#">
+                <div class="logo"></div>
+                <p>Organisations</p>
+            </a>
+            <a href="#">
+                <div class="logo"></div>
+                <p>Messages</p>
+            </a>
+            <a href="#">
+                <div class="logo"></div>
+                <p>User Access</p>
+            </a>
+            <a href="#">
+                <div class="logo"></div>
+                <p>Schedule</p>
+            </a>
+        </div>
+    </div>
+    <div id="main-content">
+        <div id="title">
+            <h1>{% block title %} Page title {% endblock %}</h1>
+            <div id="title-right">
+                <div class="logo"></div>
+                <div class="logo"></div>
+                <p>{% block Username %} User's Name {% endblock %}</p>
+                <div class="logo"></div>
+            </div>
+        </div>
+        <div id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+
+</html>
