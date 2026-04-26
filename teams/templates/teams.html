@@ -1,0 +1,101 @@
+
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Teams{% endblock %}
+{% block page_title %}Team Directory{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'JS/pages/teams.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<section class="team-directory-page" data-team-directory>
+  <div class="team-directory-toolbar">
+    <div>
+      <p class="team-directory-eyebrow">Showing {{ teams|length }} teams</p>
+      <h1 class="team-directory-title">Browse your project squads</h1>
+    </div>
+
+    <div class="team-directory-controls">
+      <label class="team-directory-search">
+        <span class="team-directory-search-icon">⌕</span>
+        <input type="search" placeholder="Search teams..." data-team-directory-search>
+      </label>
+
+      <div class="team-directory-view-toggle" role="group" aria-label="Switch team layout">
+        <button type="button" class="team-view-button is-active" data-directory-view="grid">▦</button>
+        <button type="button" class="team-view-button" data-directory-view="list">☰</button>
+      </div>
+    </div>
+  </div>
+
+
+  <section class="team-name-list-card">
+    <div class="team-name-list-header">
+      <h2>Team Names</h2>
+      <p>A quick index of every team currently in the directory.</p>
+    </div>
+    <div class="team-name-list" aria-label="Team names list">
+      {% for team in teams %}
+      <a class="team-name-pill" href="{% url 'teams:team_profile' slug=team.slug %}">{{ team.name }}</a>
+      {% endfor %}
+    </div>
+  </section>
+
+  <div class="team-card-grid" data-team-directory-grid>
+    {% for team in teams %}
+    <article
+      class="team-card"
+      data-team-card
+      data-team-card-search="{{ team.name }} {{ team.lead_name }} {{ team.department }} {{ team.location }}"
+      style="--team-banner-start: {{ team.banner_start }}; --team-banner-end: {{ team.banner_end }}; --team-accent: {{ team.accent_color }}; --team-accent-soft: {{ team.accent_soft_color }};"
+    >
+      <div class="team-card-banner">
+        <div class="team-card-orb team-card-orb-left"></div>
+        <div class="team-card-orb team-card-orb-right"></div>
+        <div class="team-card-badge">{{ team.initials }}</div>
+      </div>
+
+      <div class="team-card-body">
+        <div class="team-card-topline">
+          <h2 class="team-card-title">{{ team.name }}</h2>
+          <span class="team-status-pill team-status-{{ team.status }}">{{ team.status_label }}</span>
+        </div>
+        <p class="team-card-lead">{{ team.lead_name }}</p>
+
+        <div class="team-card-stats">
+          <div class="team-card-stat">
+            <span>👥</span>
+            <strong>{{ team.members_count }}</strong>
+            <small>Members</small>
+          </div>
+          <div class="team-card-stat">
+            <span>⌁</span>
+            <strong>{{ team.active_projects }}</strong>
+            <small>Projects</small>
+          </div>
+          <div class="team-card-stat">
+            <span>⌘</span>
+            <strong>{{ team.repositories_count }}</strong>
+            <small>Repos</small>
+          </div>
+        </div>
+
+        <p class="team-card-summary">{{ team.summary }}</p>
+
+        <div class="team-card-footer">
+          <span class="team-card-meta">{{ team.department }}</span>
+          <a class="team-card-link" href="{% url 'teams:team_profile' slug=team.slug %}">View profile</a>
+        </div>
+      </div>
+    </article>
+    {% empty %}
+    <div class="team-empty-state">
+      <h2>No teams yet</h2>
+      <p>Create a team record in the admin area to populate the directory.</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,25 +1,17 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weekly Meetings</title>
+</head>
+<body>
+    <h1>Weekly Meetings</h1>
 
-{% block title %}
-Weekly Meetings
-{% endblock %}
-
-{% block Username %}
-{{ request.user.username|default:"User" }}
-{% endblock %}
-
-{% block content %}
-<h2>Weekly Meetings</h2>
-
-<p><a href="{% url 'meetings:meeting_list' %}">Back to All Meetings</a></p>
-
-{% if meetings %}
     <ul>
         {% for meeting in meetings %}
-            <li>{{ meeting.title }} - {{ meeting.date }} - {{ meeting.time }} - {{ meeting.platform }}</li>
+            <li>{{ meeting.title }} - {{ meeting.date }}</li>
         {% endfor %}
     </ul>
-{% else %}
-    <p>No weekly meetings found.</p>
-{% endif %}
-{% endblock %}
+
+    <a href="/meetings/">Back</a>
+</body>
+</html>

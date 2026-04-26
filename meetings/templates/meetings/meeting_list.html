@@ -1,37 +1,17 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meetings</title>
+</head>
+<body>
+    <h1>Meetings</h1>
 
-{% block title %}
-Meetings
-{% endblock %}
+    <a href="/meetings/create/">Create Meeting</a>
 
-{% block Username %}
-{{ request.user.username|default:"User" }}
-{% endblock %}
-
-{% block content %}
-<h2>Meetings</h2>
-
-<p>
-    <a href="{% url 'meetings:create_meeting' %}">Create Meeting</a> |
-<a href="{% url 'meetings:upcoming_meetings' %}">Upcoming</a> |
-<a href="{% url 'meetings:weekly_meetings' %}">Weekly</a> |
-<a href="{% url 'meetings:monthly_meetings' %}">Monthly</a>
-</p>
-
-{% if meetings %}
     <ul>
         {% for meeting in meetings %}
-            <li>
-                <strong>{{ meeting.title }}</strong><br>
-                Date: {{ meeting.date }}<br>
-                Time: {{ meeting.time }}<br>
-                Platform: {{ meeting.platform }}<br>
-                Message: {{ meeting.message }}
-            </li>
-            <br>
+            <li>{{ meeting.title }} - {{ meeting.date }}</li>
         {% endfor %}
     </ul>
-{% else %}
-    <p>No meetings found.</p>
-{% endif %}
-{% endblock %}
+</body>
+</html>
