@@ -1,17 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Meeting</title>
-</head>
-<body>
-    <h1>Create Meeting</h1>
+{% extends "base.html" %}
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
+{% block title %}
+Create Meeting
+{% endblock %}
 
-    <a href="/meetings/">Back</a>
-</body>
-</html>
+{% block Username %}
+{{ request.user.username|default:"User" }}
+{% endblock %}
+
+{% block content %}
+<h2>Create Meeting</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Meeting</button>
+</form>
+
+<p><a href="/meetings/">Back to Meetings</a></p>
+{% endblock %}
