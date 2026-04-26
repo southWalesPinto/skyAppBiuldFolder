@@ -5,7 +5,7 @@ User = get_user_model()
 
 
 class AuditLog(models.Model):
-    id = models.CharField(max_length=100, unique=True)
+    id = models.CharField(max_length=100, unique=True, primary_key=True)
     object_id = models.CharField(max_length=100)
     object_repr = models.CharField(max_length=200)
     action_flag = models.CharField(max_length=100)
@@ -15,7 +15,7 @@ class AuditLog(models.Model):
     action_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        db_table = "django_admin_log"
+        db_table = "audit_log"
         ordering = ["-action_time"]
 
     def __str__(self) -> str:
