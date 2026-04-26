@@ -1,9 +1,25 @@
-<h1>Monthly Meetings</h1>
+{% extends "base.html" %}
 
-<ul>
-{% for meeting in meetings %}
-    <li>{{ meeting.title }} - {{ meeting.date }}</li>
-{% endfor %}
-</ul>
+{% block title %}
+Monthly Meetings
+{% endblock %}
 
-<a href="/meetings/">Back</a>
+{% block Username %}
+{{ request.user.username|default:"User" }}
+{% endblock %}
+
+{% block content %}
+<h2>Monthly Meetings</h2>
+
+<p><a href="/meetings/">Back to All Meetings</a></p>
+
+{% if meetings %}
+    <ul>
+        {% for meeting in meetings %}
+            <li>{{ meeting.title }} - {{ meeting.date }} - {{ meeting.time }} - {{ meeting.platform }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No monthly meetings found.</p>
+{% endif %}
+{% endblock %}
