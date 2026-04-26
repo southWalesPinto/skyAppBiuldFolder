@@ -12,10 +12,10 @@ Meetings
 <h2>Meetings</h2>
 
 <p>
-    <a href="/meetings/create/">Create Meeting</a> |
-    <a href="/meetings/upcoming/">Upcoming</a> |
-    <a href="/meetings/weekly/">Weekly</a> |
-    <a href="/meetings/monthly/">Monthly</a>
+    <a href="{% url 'meetings:create_meeting' %}">Create Meeting</a> |
+<a href="{% url 'meetings:upcoming_meetings' %}">Upcoming</a> |
+<a href="{% url 'meetings:weekly_meetings' %}">Weekly</a> |
+<a href="{% url 'meetings:monthly_meetings' %}">Monthly</a>
 </p>
 
 {% if meetings %}
