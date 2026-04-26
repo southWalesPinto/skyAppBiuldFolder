@@ -7,11 +7,13 @@
     <h1>Meetings</h1>
 
     <a href="/meetings/create/">Create Meeting</a>
-
-    <ul>
-        {% for meeting in meetings %}
-            <li>{{ meeting.title }} - {{ meeting.date }}</li>
-        {% endfor %}
-    </ul>
+<ul>
+    {% for meeting in meetings %}
+        <li>
+            {{ meeting.title }} - {{ meeting.date }}
+            <a href="{% url 'meetings:delete_meeting' meeting.id %}">Delete</a>
+        </li>
+    {% endfor %}
+</ul>    
 </body>
 </html>
