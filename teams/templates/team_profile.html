@@ -1,0 +1,264 @@
+
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Team Profile{% endblock %}
+{% block page_title %}Team Profile{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'JS/pages/teams.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<section
+  class="team-profile-page"
+  data-team-profile
+  style="--team-hero-start: {{ team.profile_gradient_start }}; --team-hero-end: {{ team.profile_gradient_end }}; --team-accent: {{ team.accent_color }}; --team-banner-start: {{ team.banner_start }}; --team-banner-end: {{ team.banner_end }};"
+>
+  <header class="team-profile-hero">
+    <a class="team-profile-back" href="{% url 'teams:teams_page' %}">← Back to Teams</a>
+
+    <div class="team-profile-hero-grid">
+      <div>
+        <h1 class="team-profile-name">{{ team.name }}</h1>
+        <div class="team-profile-lead-row">
+          <div class="team-profile-avatar">{{ team.initials }}</div>
+          <div>
+            <strong>{{ team.lead_name }}</strong>
+            <span>{{ team.lead_role }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-profile-actions">
+        <a href="mailto:{{ team.lead_email }}" class="team-action-button team-action-emphasis">✉ Email Team</a>
+        <a href="#" class="team-action-button">📅 Schedule Meeting</a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="team-profile-tabs" aria-label="Team sections">
+    <button type="button" class="team-tab is-active" data-team-tab-button="overview">Overview</button>
+    <button type="button" class="team-tab" data-team-tab-button="members">Members</button>
+    <button type="button" class="team-tab" data-team-tab-button="repositories">Repositories</button>
+    <button type="button" class="team-tab" data-team-tab-button="dependencies">Dependencies</button>
+  </nav>
+
+  <div class="team-tab-panels">
+    <section class="team-tab-panel is-active" data-team-tab-panel="overview">
+      <div class="team-overview-grid">
+        <article class="team-surface-card team-about-card">
+          <h2>About the Team</h2>
+          <p>{{ team.summary }}</p>
+          <div class="team-about-grid">
+            <div>
+              <span>Department</span>
+              <strong>{{ team.department }}</strong>
+            </div>
+            <div>
+              <span>Location</span>
+              <strong>{{ team.location }}</strong>
+            </div>
+            <div>
+              <span>Status</span>
+              <strong>{{ team.status_label }}</strong>
+            </div>
+            <div>
+              <span>Lead</span>
+              <strong>{{ team.lead_name }}</strong>
+            </div>
+          </div>
+        </article>
+
+        <aside class="team-side-stack">
+          <article class="team-surface-card team-contacts-card">
+            <h2>Key Contacts</h2>
+            <div class="team-contact-list">
+              {% for contact in team.contacts %}
+              <div class="team-contact-item">
+                <div class="team-contact-avatar">{{ contact.initials }}</div>
+                <div>
+                  <strong>{{ contact.name }}</strong>
+                  <span>{{ contact.role }}</span>
+                </div>
+              </div>
+              {% empty %}
+              <p class="team-card-muted">No contacts added yet.</p>
+              {% endfor %}
+            </div>
+          </article>
+
+          <article class="team-surface-card team-links-card">
+            <h2>Quick Links</h2>
+            <div class="team-link-list">
+              {% for link in team.quick_links %}
+              <a href="{{ link.url }}">{{ link.label }}</a>
+              {% empty %}
+              <p class="team-card-muted">No quick links added yet.</p>
+              {% endfor %}
+            </div>
+          </article>
+        </aside>
+      </div>
+
+      <div class="team-stats-grid">
+        <article class="team-stat-card">
+          <span class="team-stat-icon">⌘</span>
+          <strong>{{ team.active_projects }}</strong>
+          <small>Active Projects</small>
+        </article>
+        <article class="team-stat-card">
+          <span class="team-stat-icon">👥</span>
+          <strong>{{ team.members_count }}</strong>
+          <small>Team Members</small>
+        </article>
+        <article class="team-stat-card">
+          <span class="team-stat-icon">↗</span>
+          <strong>{{ team.repositories_count }}</strong>
+          <small>Repositories</small>
+        </article>
+        <article class="team-stat-card">
+          <span class="team-stat-icon">◌</span>
+          <strong>{{ team.dependencies_count }}</strong>
+          <small>Dependencies</small>
+        </article>
+      </div>
+    </section>
+
+    <section class="team-tab-panel" data-team-tab-panel="members">
+      <div class="team-panel-toolbar">
+        <div class="team-role-filters" data-team-role-filters>
+          <button type="button" class="team-filter-chip is-active" data-member-filter="all">All Roles</button>
+          <button type="button" class="team-filter-chip" data-member-filter="engineer">Engineers</button>
+          <button type="button" class="team-filter-chip" data-member-filter="designer">Designers</button>
+          <button type="button" class="team-filter-chip" data-member-filter="product">Product</button>
+        </div>
+
+        <label class="team-inline-search">
+          <input type="search" placeholder="Search members..." data-member-search>
+        </label>
+      </div>
+
+      <div class="team-member-grid" data-member-grid>
+        {% for member in team.members %}
+        <article class="team-member-card" data-member-card data-member-role="{{ member.group|lower }}" data-member-search="{{ member.name }} {{ member.role }} {{ member.email }} {{ member.phone }}">
+          <div class="team-member-head">
+            <div class="team-member-avatar" style="background: {{ member.color }};">{{ member.initials }}</div>
+            <div>
+              <strong>{{ member.name }}</strong>
+              <span>{{ member.role }}</span>
+            </div>
+          </div>
+          <div class="team-member-contact">
+            <span>✉ {{ member.email }}</span>
+            <span>☎ {{ member.phone }}</span>
+          </div>
+          <div class="team-member-actions">
+            <button type="button">Profile</button>
+            <button type="button">Message</button>
+            <button type="button">Email</button>
+          </div>
+        </article>
+        {% empty %}
+        <div class="team-empty-state team-empty-inline">
+          <h2>No members listed</h2>
+          <p>Populate the members JSON field for this team to show the roster.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="team-tab-panel" data-team-tab-panel="repositories">
+      <div class="team-panel-toolbar">
+        <div class="team-view-toggle-group" role="group" aria-label="Repository layout">
+          <button type="button" class="team-view-button is-active" data-repository-view="grid">Grid View</button>
+          <button type="button" class="team-view-button" data-repository-view="list">List View</button>
+        </div>
+
+        <label class="team-inline-search">
+          <input type="search" placeholder="Search repositories..." data-repository-search>
+        </label>
+      </div>
+
+      <div class="team-repository-grid is-grid" data-repository-grid>
+        {% for repo in team.repositories %}
+        <article class="team-repository-card" data-repository-card data-repository-search="{{ repo.name }} {{ repo.description }} {{ repo.tags|join:' ' }}">
+          <div class="team-repository-head">
+            <div class="team-repository-icon">{{ repo.icon }}</div>
+            <div>
+              <strong>{{ repo.name }}</strong>
+              <span>{{ repo.description }}</span>
+            </div>
+          </div>
+          <div class="team-repository-tags">
+            {% for tag in repo.tags %}
+            <span>{{ tag }}</span>
+            {% endfor %}
+          </div>
+          <div class="team-repository-meta">
+            <span>⭐ {{ repo.stars }}</span>
+            <span>⑂ {{ repo.forks }}</span>
+            <span>{{ repo.updated }}</span>
+          </div>
+        </article>
+        {% empty %}
+        <div class="team-empty-state team-empty-inline">
+          <h2>No repositories listed</h2>
+          <p>Populate the repositories JSON field for this team to show linked codebases.</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="team-tab-panel" data-team-tab-panel="dependencies">
+      <div class="team-panel-toolbar team-panel-toolbar-compact">
+        <div class="team-filter-chip is-active">All Dependencies</div>
+        <div class="team-filter-chip">Upstream</div>
+        <div class="team-filter-chip">Downstream</div>
+        <label class="team-inline-search">
+          <input type="search" placeholder="Search teams..." data-dependency-search>
+        </label>
+      </div>
+
+      <div class="team-table-card">
+        <table class="team-dependency-table">
+          <thead>
+            <tr>
+              <th>Team Name</th>
+              <th>Type</th>
+              <th>Manager</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody data-dependency-table>
+            {% for dependency in team.dependencies %}
+            <tr data-dependency-row data-dependency-search="{{ dependency.name }} {{ dependency.type }} {{ dependency.manager }} {{ dependency.status }}">
+              <td>
+                <div class="team-table-team-name">
+                  <span class="team-table-team-icon">↺</span>
+                  <strong>{{ dependency.name }}</strong>
+                </div>
+              </td>
+              <td><span class="team-type-pill team-type-{{ dependency.type|lower }}">{{ dependency.type }}</span></td>
+              <td>
+                <div class="team-table-person">
+                  <span class="team-table-person-avatar" style="background: {{ dependency.color }};"></span>
+                  <strong>{{ dependency.manager }}</strong>
+                </div>
+              </td>
+              <td><span class="team-status-pill team-status-{{ dependency.status|lower }}">{{ dependency.status }}</span></td>
+              <td><a href="#">View</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5" class="team-table-empty">No dependencies listed yet.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</section>
+{% endblock %}

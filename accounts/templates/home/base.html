@@ -1,0 +1,100 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Sky App{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'global.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  {% block body %}
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-wrap">
+        <div class="brand-mark">S</div>
+        <div class="brand-name">Sky App</div>
+      </div>
+
+      <nav class="side-nav" aria-label="Primary">
+        <a class="nav-item {% if active_nav == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+        <a class="nav-item {% if active_nav == 'teams' %}active{% endif %}" href="{% url 'teams:teams_page' %}"><span class="nav-icon">☰</span><span>Teams</span></a>
+        <a class="nav-item" href="#"><span class="nav-icon">⌂</span><span>Organisation</span></a>
+        <a class="nav-item" href="#"><span class="nav-icon">✉</span><span>Messages</span></a>
+        <a class="nav-item" href="#"><span class="nav-icon">◷</span><span>Schedule</span></a>
+      </nav>
+
+      <div class="sidebar-footer">© 2025 Sky Engineering Directory</div>
+    </aside>
+
+    <div class="main-shell">
+      <header class="topbar">
+        <div class="page-title">{% block page_title %}Welcome{% endblock %}</div>
+        <div class="topbar-actions">
+          <button class="icon-button" type="button" aria-label="Notifications">🔔</button>
+
+          <div class="profile-menu-wrapper" data-profile-menu-wrapper>
+            <button
+              class="profile-menu-trigger"
+              type="button"
+              aria-label="Open profile menu"
+              aria-expanded="false"
+              aria-controls="profile-menu-panel"
+              data-profile-menu-button
+            >
+              <div class="profile-pill">
+                <div class="profile-avatar">{{ request.user.username|default:"SJ"|slice:":2"|upper }}</div>
+                <div class="profile-meta">
+                  <strong>{{ request.user.get_full_name|default:request.user.username|default:"Sarah Johnson" }}</strong>
+                  <span>{% block profile_role %}Backend Developer{% endblock %}</span>
+                </div>
+                <span class="profile-caret">⌄</span>
+              </div>
+            </button>
+
+            <div class="profile-dropdown" id="profile-menu-panel" data-profile-menu hidden>
+              <a href="#" class="profile-dropdown-item">
+                <span class="profile-item-icon profile-item-icon-profile">👥</span>
+                <span class="profile-item-copy">
+                  <strong>View Profile</strong>
+                  <small>See your details</small>
+                </span>
+              </a>
+
+              <a href="#" class="profile-dropdown-item">
+                <span class="profile-item-icon profile-item-icon-settings">🏢</span>
+                <span class="profile-item-copy">
+                  <strong>Settings</strong>
+                  <small>Preferences</small>
+                </span>
+              </a>
+
+              <hr class="profile-dropdown-divider">
+
+              <a href="{% url 'logout' %}" class="profile-dropdown-item profile-dropdown-item-signout">
+                <span class="profile-item-icon profile-item-icon-signout">💬</span>
+                <span class="profile-item-copy">
+                  <strong>Sign Out</strong>
+                  <small>End your session</small>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-area">
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+  {% endblock %}
+  {% block extra_scripts %}{% endblock %}
+  <script src="{% static 'global.js' %}" defer></script>
+</body>
+</html>

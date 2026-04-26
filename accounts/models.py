@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from teams.models import Teams
 
 
 class User(AbstractUser):
@@ -17,6 +18,13 @@ class AbstractUserType(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="%(class)s_profile",
+    )
+    team = models.ForeignKey(
+        Teams,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="%(class)s_team_members",
     )
     phone_number = models.CharField(max_length=30, blank=True)
     notes = models.TextField(blank=True)

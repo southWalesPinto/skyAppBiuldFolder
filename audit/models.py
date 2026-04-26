@@ -1,22 +1,26 @@
-from django.db import models
+import uuid
+
 from django.contrib.auth import get_user_model
+from django.db import models
 
 User = get_user_model()
 
 
 class AuditLog(models.Model):
-    id = models.CharField(max_length=100, unique=True, primary_key=True)
-    object_id = models.CharField(max_length=100)
-    object_repr = models.CharField(max_length=200)
-    action_flag = models.CharField(max_length=100)
-    change_message = models.TextField(blank=True)
-    content_type = models.ForeignKey("contenttypes.ContentType", on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    action_time = models.DateTimeField(auto_now_add=True)
-    
+    aud_number = models.CharField(max_length=100, unique=True, null=True, blank=True)
+    action = models.CharField(max_length=100, default="created")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    details = models.TextField(blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
     class Meta:
-        db_table = "audit_log"
-        ordering = ["-action_time"]
+        db_table = "auditLog"
+        ordering = ["-timestamp"]
+
+    def save(self, *args, **kwargs):
+        if not self.aud_number:
+            self.aud_number = f"AUD-{uuid.uuid4().hex[:8].upper()}"
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
-        return self.id
+        return self.aud_number or f"AuditLog#{self.pk}"

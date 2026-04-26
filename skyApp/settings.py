@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'skyApp.middleware.RequireLoginMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -62,7 +63,7 @@ ROOT_URLCONF = 'skyApp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,11 +123,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
+
+
+
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 
 AUTH_USER_MODEL = "accounts.User"
-LOGIN_URL = "/accounts/login/"
-LOGIN_REDIRECT_URL = "/accounts/redirecting/"
-LOGOUT_REDIRECT_URL = "/accounts/signed-out/"
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/dashboard/"
+LOGOUT_REDIRECT_URL = "/signed-out/"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

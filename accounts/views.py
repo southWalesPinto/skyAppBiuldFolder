@@ -1,9 +1,20 @@
+
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 
+from teams.models import Teams
+
 from .forms import LoginForm, SignUpForm
+
+
+def home(request):
+    return render(request, 'home/home.html', {})
+
+
+def dashboard(request):
+    return render(request, "accounts/dashboard.html", {"active_nav": "dashboard"})
 
 
 class SkyLoginView(LoginView):
@@ -11,7 +22,7 @@ class SkyLoginView(LoginView):
     template_name = "accounts/login.html"
 
     def get_success_url(self):
-        return reverse_lazy("accounts:redirecting")
+        return reverse_lazy("dashboard")
 
 
 class AdminLoginView(LoginView):
@@ -31,16 +42,17 @@ class AdminLoginView(LoginView):
 
 def signup(request):
     if request.user.is_authenticated:
-        return redirect("accounts:redirecting")
+        return redirect("redirecting")
+    teams = Teams.objects.order_by("name")
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect("accounts:signup_success")
+            return redirect("signup_success")
     else:
         form = SignUpForm()
-    return render(request, "accounts/signup.html", {"form": form})
+    return render(request, "accounts/signup.html", {"form": form, "teams": teams})
 
 
 def signup_success(request):
@@ -57,4 +69,4 @@ def logged_out(request):
 
 def sky_logout(request):
     logout(request)
-    return redirect("accounts:logged_out")
+    return redirect("logged_out")

@@ -1,25 +1,9 @@
-{% extends "base.html" %}
+<h1>Upcoming Meetings</h1>
 
-{% block title %}
-Upcoming Meetings
-{% endblock %}
+<ul>
+{% for meeting in meetings %}
+    <li>{{ meeting.title }} - {{ meeting.date }}</li>
+{% endfor %}
+</ul>
 
-{% block Username %}
-{{ request.user.username|default:"User" }}
-{% endblock %}
-
-{% block content %}
-<h2>Upcoming Meetings</h2>
-
-<p><a href="{% url 'meetings:meeting_list' %}">Back to All Meetings</a></p>
-
-{% if meetings %}
-    <ul>
-        {% for meeting in meetings %}
-            <li>{{ meeting.title }} - {{ meeting.date }} - {{ meeting.time }} - {{ meeting.platform }}</li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No upcoming meetings found.</p>
-{% endif %}
-{% endblock %}
+<a href="/meetings/">Back</a>

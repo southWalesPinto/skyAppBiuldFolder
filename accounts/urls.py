@@ -11,6 +11,7 @@ from . import views
 app_name = "accounts"
 
 urlpatterns = [
+    path('', views.home, name="home"),
     path("login/", views.SkyLoginView.as_view(), name="login"),
     path("admin-login/", views.AdminLoginView.as_view(), name="admin_login"),
     path("logout/", views.sky_logout, name="logout"),
@@ -23,7 +24,7 @@ urlpatterns = [
         PasswordResetView.as_view(
             template_name="accounts/password_reset.html",
             email_template_name="accounts/password_reset_email.html",
-            success_url=reverse_lazy("accounts:password_reset_done"),
+            success_url=reverse_lazy("password_reset_done"),
         ),
         name="password_reset",
     ),
@@ -38,7 +39,7 @@ urlpatterns = [
         "password-reset/<uidb64>/<token>/",
         PasswordResetConfirmView.as_view(
             template_name="accounts/password_reset_confirm.html",
-            success_url=reverse_lazy("accounts:password_reset_complete"),
+            success_url=reverse_lazy("password_reset_complete"),
         ),
         name="password_reset_confirm",
     ),

@@ -4,6 +4,8 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
+from teams.models import Teams
+
 from .models import DepartmentManager, TeamLead, TeamMember
 
 User = get_user_model()
@@ -16,20 +18,23 @@ class SignUpForm(UserCreationForm):
         ("department_manager", "Department Manager"),
     ]
 
-    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={"placeholder": "Email address"}))
+    name = forms.CharField(required=True, widget=forms.TextInput(attrs={"placeholder": "Full name"}))
     user_type = forms.ChoiceField(choices=USER_TYPE_CHOICES)
+    team = forms.ModelChoiceField(queryset=Teams.objects.none(), required=True, empty_label="Choose a team")
     phone_number = forms.CharField(required=False, max_length=30)
     notes = forms.CharField(required=False, widget=forms.Textarea(attrs={"rows": 3}))
 
     class Meta:
         model = User
-        fields = ("username", "email", "user_type", "phone_number", "notes", "password1", "password2")
+        fields = ("username", "name", "team", "user_type", "phone_number", "notes", "password1", "password2")
         widgets = {
-            "username": forms.TextInput(attrs={"placeholder": "Full name / username"}),
+            "username": forms.EmailInput(attrs={"placeholder": "Email address"}),
+            "team": forms.Select(attrs={"data-team-select": "true"}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["team"].queryset = Teams.objects.order_by("name")
         self.fields["password1"].widget.attrs["placeholder"] = "Password"
         self.fields["password2"].widget.attrs["placeholder"] = "Confirm password"
         self.fields["phone_number"].widget.attrs["placeholder"] = "Phone number (optional)"
@@ -43,13 +48,18 @@ class SignUpForm(UserCreationForm):
             raise ValueError("SignUpForm.save requires commit=True")
 
         user = super().save(commit=True)
+        user.first_name = self.cleaned_data.get("name", "")
+        user.save(update_fields=["first_name"])
+
         user_type = self.cleaned_data["user_type"]
+        team = self.cleaned_data["team"]
         phone_number = self.cleaned_data.get("phone_number", "")
         notes = self.cleaned_data.get("notes", "")
 
         if user_type == "team_member":
             TeamMember.objects.create(
                 user=user,
+                team=team,
                 member_code=self._new_code("TM"),
                 phone_number=phone_number,
                 notes=notes,
@@ -57,6 +67,7 @@ class SignUpForm(UserCreationForm):
         elif user_type == "team_lead":
             TeamLead.objects.create(
                 user=user,
+                team=team,
                 lead_code=self._new_code("TL"),
                 phone_number=phone_number,
                 notes=notes,
@@ -64,6 +75,7 @@ class SignUpForm(UserCreationForm):
         else:
             DepartmentManager.objects.create(
                 user=user,
+                team=team,
                 manager_code=self._new_code("DM"),
                 phone_number=phone_number,
                 notes=notes,

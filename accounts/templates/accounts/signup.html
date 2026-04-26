@@ -1,7 +1,11 @@
 {% extends "accounts/base_auth.html" %}
+{% load static %}
 {% block title %}Sign Up{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'Css/pages/auth/signup.css' %}">
+{% endblock %}
 {% block content %}
-<div class="card">
+<div class="card signup-card">
   <div class="logo"></div>
   <h1>Create Your Account</h1>
   <p class="sub">Join the platform and start collaborating.</p>
@@ -11,17 +15,43 @@
     {% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}
   </ul>
   {% endif %}
-  <form method="post">
+  <form method="post" class="signup-form">
     {% csrf_token %}
-    <div class="field"><label>Your Name</label>{{ form.username }}</div>
-    <div class="field"><label>Email Address</label>{{ form.email }}</div>
-    <div class="field"><label>User Type</label>{{ form.user_type }}</div>
-    <div class="field"><label>Phone Number</label>{{ form.phone_number }}</div>
-    <div class="field"><label>Notes</label>{{ form.notes }}</div>
-    <div class="field"><label>Password</label>{{ form.password1 }}</div>
-    <div class="field"><label>Confirm Password</label>{{ form.password2 }}</div>
+    <div class="signup-grid">
+      <div class="signup-column">
+        <div class="field"><label>Your Name</label>{{ form.name }}</div>
+        <div class="field"><label>Email Address</label>{{ form.username }}</div>
+        <div class="field"><label>User Type</label>{{ form.user_type }}</div>
+        <div class="field"><label>Phone Number</label>{{ form.phone_number }}</div>
+        <div class="field"><label>Notes</label>{{ form.notes }}</div>
+        <div class="field"><label>Password</label>{{ form.password1 }}</div>
+        <div class="field"><label>Confirm Password</label>{{ form.password2 }}</div>
+      </div>
+
+      <div class="signup-column signup-team-column">
+        <div class="field">
+          <label for="{{ form.team.id_for_label }}">Choose a Team</label>
+          {{ form.team }}
+          <div class="team-select-list" data-team-picker>
+            {% for team in teams %}
+            <button type="button" class="team-select-card" data-team-option data-team-value="{{ team.pk }}" data-team-name="{{ team.name }}" data-team-lead="{{ team.lead_name }}">
+              <span class="team-select-badge">{{ team.initials }}</span>
+              <span class="team-select-copy">
+                <strong>{{ team.name }}</strong>
+                <small>{{ team.lead_name }} · {{ team.department }}</small>
+              </span>
+            </button>
+            {% endfor %}
+          </div>
+          <p class="team-select-hint" data-team-selection-hint>Pick a team to attach to your profile.</p>
+        </div>
+      </div>
+    </div>
     <button class="btn" type="submit">Create account</button>
   </form>
-  <p class="center muted" style="margin-top:12px">Already have an account? <a class="link" href="{% url 'accounts:login' %}">Sign in</a></p>
+  <p class="center muted" style="margin-top:12px">Already have an account? <a class="link" href="{% url 'login' %}">Sign in</a></p>
 </div>
+{% endblock %}
+{% block extra_scripts %}
+<script src="{% static 'JS/pages/signup.js' %}" defer></script>
 {% endblock %}
