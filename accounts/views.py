@@ -3,7 +3,9 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.utils import timezone
 
+from audit.models import AuditLog
 from teams.models import Teams
 
 from .forms import LoginForm, SignUpForm
@@ -21,6 +23,15 @@ class SkyLoginView(LoginView):
     form_class = LoginForm
     template_name = "accounts/login.html"
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        AuditLog.objects.create(
+            action="login",
+            user=self.request.user,
+            details=f"User {self.request.user.username} logged in at {timezone.now()}"
+        )
+        return response
+
     def get_success_url(self):
         return reverse_lazy("dashboard")
 
@@ -34,7 +45,13 @@ class AdminLoginView(LoginView):
         if not form.get_user().is_staff:
             form.add_error(None, "This login page is for admin users only.")
             return self.form_invalid(form)
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        AuditLog.objects.create(
+            action="admin_login",
+            user=self.request.user,
+            details=f"Admin {self.request.user.username} logged in at {timezone.now()}"
+        )
+        return response
 
     def get_success_url(self):
         return reverse_lazy("admin:index")
@@ -48,6 +65,11 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
+            AuditLog.objects.create(
+                action="signup",
+                user=user,
+                details=f"User {user.username} signed up at {timezone.now()}"
+            )
             login(request, user)
             return redirect("signup_success")
     else:
@@ -68,5 +90,11 @@ def logged_out(request):
 
 
 def sky_logout(request):
+    user = request.user
     logout(request)
+    AuditLog.objects.create(
+        action="logout",
+        user=user,
+        details=f"User {user.username} logged out at {timezone.now()}"
+    )
     return redirect("logged_out")
