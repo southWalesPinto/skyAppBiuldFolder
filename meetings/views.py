@@ -34,3 +34,8 @@ def monthly_meetings(request):
     meetings = Meeting.objects.all()
     return render(request, 'meetings/monthly_meetings.html', {'meetings': meetings})
 
+def delete_meeting(request, id):
+    meeting = get_object_or_404(Meeting, id=id)
+    meeting.delete()
+    return redirect('meetings:meeting_list')
+
