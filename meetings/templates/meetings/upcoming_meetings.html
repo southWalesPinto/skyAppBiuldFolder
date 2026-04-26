@@ -11,7 +11,7 @@ Upcoming Meetings
 {% block content %}
 <h2>Upcoming Meetings</h2>
 
-<p><a href="/meetings/">Back to All Meetings</a></p>
+<p><a href="{% url 'meetings:meeting_list' %}">Back to All Meetings</a></p>
 
 {% if meetings %}
     <ul>
