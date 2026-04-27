@@ -1,17 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Weekly Meetings</title>
-</head>
-<body>
-    <h1>Weekly Meetings</h1>
+{% extends "home/base.html" %}
+{% load static %}
 
-    <ul>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'Css/pages/meetings/schedule.css' %}">
+{% endblock %}
+
+{% block title %}Weekly Meetings{% endblock %}
+{% block page_title %}Weekly Meetings{% endblock %}
+
+{% block content %}
+
+<section class="schedule-page">
+
+  <div class="schedule-main-card">
+    <h2>Weekly Meetings</h2>
+
+    {% if meetings %}
+      <ul>
         {% for meeting in meetings %}
-            <li>{{ meeting.title }} - {{ meeting.date }}</li>
+          <li>{{ meeting.title }} – {{ meeting.date }}</li>
         {% endfor %}
-    </ul>
+      </ul>
+    {% else %}
+      <p>No meetings available.</p>
+    {% endif %}
 
-    <a href="/meetings/">Back</a>
-</body>
-</html>
+    <a href="{% url 'meetings:meeting_list' %}" class="schedule-cta-btn">Back</a>
+  </div>
+
+</section>
+
+{% endblock %}
