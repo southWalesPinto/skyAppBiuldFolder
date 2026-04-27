@@ -1,0 +1,100 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Edit Draft{% endblock %}
+{% block page_title %}Edit Draft{% endblock %}
+{% block profile_role %}Backend Developer{% endblock %}
+
+{% block extra_head %}
+<style>
+    .form-card {
+        background: white;
+        padding: 25px;
+        max-width: 700px;
+        border: 1px solid #dcdcdc;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    label {
+        font-weight: bold;
+        display: block;
+        margin-top: 12px;
+        margin-bottom: 6px;
+        color: #222;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    textarea {
+        min-height: 180px;
+        resize: vertical;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 18px;
+    }
+
+    button {
+        padding: 12px 18px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .save {
+        background: #1f2d3d;
+        color: white;
+    }
+
+    .send {
+        background: #d9dee5;
+        color: #222;
+    }
+
+    .back {
+        display: inline-block;
+        margin-top: 18px;
+        color: #1f2d3d;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .back:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="form-card">
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Recipient</label>
+        <input type="text" name="recipient" value="{{ message.recipient }}">
+
+        <label>Subject</label>
+        <input type="text" name="subject" value="{{ message.subject }}">
+
+        <label>Message</label>
+        <textarea name="body">{{ message.body }}</textarea>
+
+        <div class="buttons">
+            <button class="save" type="submit" name="save">Save Draft</button>
+            <button class="send" type="submit" name="send" value="true">Send</button>
+        </div>
+    </form>
+
+    <a class="back" href="{% url 'messaging:drafts' %}">← Back to Drafts</a>
+</div>
+
+{% endblock %}

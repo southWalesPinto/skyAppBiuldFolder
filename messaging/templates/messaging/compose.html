@@ -1,0 +1,29 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Compose Message{% endblock %}
+{% block page_title %}New Message{% endblock %}
+{% block profile_role %}Backend Developer{% endblock %}
+
+{% block content %}
+
+<h1>New Message</h1>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Recipient username</label><br>
+    <input type="text" name="recipient" required><br><br>
+
+    <label>Subject</label><br>
+    <input type="text" name="subject"><br><br>
+
+    <label>Message</label><br>
+    <textarea name="body" required></textarea><br><br>
+
+    <button type="submit">Send Message</button>
+</form>
+
+<a href="{% url 'messaging:inbox' %}">← Back to Inbox</a>
+
+{% endblock %}

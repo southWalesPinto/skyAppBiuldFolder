@@ -1,50 +1,113 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Sent</title>
-    <style>
-        body {
-            font-family: Arial;
-            background: #f4f6f8;
-            padding: 20px;
-        }
+{% extends "home/base.html" %}
+{% load static %}
 
-        h1 {
-            color: #333;
-        }
+{% block title %}Sent{% endblock %}
+{% block page_title %}Sent Messages{% endblock %}
+{% block profile_role %}Backend Developer{% endblock %}
 
-        .message {
-            background: white;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-left: 5px solid #2ecc71;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+{% block extra_head %}
+<style>
+    .message-card {
+        background: white;
+        padding: 25px;
+        margin-bottom: 18px;
+        border: 1px solid #dcdcdc;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+    }
 
-        a {
-            color: #2ecc71;
-            text-decoration: none;
-        }
-    </style>
-</head>
+    .avatar {
+        width: 48px;
+        height: 48px;
+        background: #9aa4b2;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
 
-<body>
+    .message-info {
+        flex: 1;
+    }
+
+    .message-info h3 {
+        margin: 0 0 6px 0;
+        font-size: 16px;
+        color: #222;
+    }
+
+    .meta {
+        color: #666;
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    .preview {
+        color: #555;
+        margin: 0 0 10px 0;
+        font-size: 14px;
+    }
+
+    .date {
+        color: #777;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .view-link {
+        color: #1f2d3d;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 13px;
+    }
+
+    .view-link:hover {
+        text-decoration: underline;
+    }
+
+    .empty {
+        color: #777;
+        font-style: italic;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
 
 <h1>Sent Messages</h1>
 
 {% if messages %}
-    {% for message in messages %}
-        <div class="message">
-            <h3>{{ message.subject }}</h3>
-            <p><strong>To:</strong> {{ message.recipient }}</p>
-            <p><strong>Date:</strong> {{ message.sent_at }}</p>
+    {% for msg in messages %}
+        <div class="message-card">
+            <div class="avatar"></div>
 
-            <a href="{% url 'messaging:view_message' message.id %}">View Message</a>
+            <div class="message-info">
+                <h3>{{ msg.recipient }}</h3>
+
+                <div class="meta">
+                    {{ msg.subject|default:"(No subject)" }}
+                </div>
+
+                <p class="preview">
+                    {{ msg.body|truncatewords:12 }}
+                </p>
+
+                <a class="view-link" href="{% url 'messaging:view_message' msg.id %}">
+                    View Message
+                </a>
+            </div>
+
+            <div class="date">
+                {% if msg.sent_at %}
+                    {{ msg.sent_at|date:"M d" }}
+                {% else %}
+                    {{ msg.created_at|date:"M d" }}
+                {% endif %}
+            </div>
         </div>
     {% endfor %}
 {% else %}
-    <p>No sent messages.</p>
+    <p class="empty">No sent messages.</p>
 {% endif %}
 
-</body>
-</html>
+{% endblock %}
