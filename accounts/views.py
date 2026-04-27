@@ -4,9 +4,7 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 
-from teams.models import Teams
-
-from .forms import LoginForm, SignUpForm
+from .forms import LoginForm, SignUpForm, ordered_team_queryset
 
 
 def home(request):
@@ -43,7 +41,7 @@ class AdminLoginView(LoginView):
 def signup(request):
     if request.user.is_authenticated:
         return redirect("redirecting")
-    teams = Teams.objects.order_by("name")
+    teams = ordered_team_queryset()
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
