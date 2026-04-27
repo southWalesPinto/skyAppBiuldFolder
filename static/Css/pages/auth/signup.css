@@ -25,11 +25,63 @@
 
 
 [data-team-select] {
-  display: none;
+  display: block;
+  width: 100%;
+}
+
+.team-dropdown-wrapper {
+  position: relative;
 }
 
 
+.team-search-input {
+  width: 100%;
+  padding: 9px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 10px;
+  transition: border-color 140ms ease;
+}
+
+.team-search-input:focus {
+  outline: none;
+  border-color: #5b45e7;
+  box-shadow: 0 0 0 3px rgba(91, 69, 231, 0.12);
+}
+
+.team-select-card.hidden {
+  display: none;
+}
+
+.team-select-list.has-no-matches::after {
+  content: "No teams match your search";
+  display: block;
+  padding: 20px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  grid-column: 1 / -1;
+}
+
 .team-select-list {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  max-height: 320px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #dbe1f2;
+  border-radius: 12px;
+  padding: 10px;
+  gap: 8px;
+  z-index: 10;
+}
+
+.team-select-list.is-open {
   display: grid;
   gap: 10px;
 }
