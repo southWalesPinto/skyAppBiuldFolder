@@ -33,11 +33,10 @@ MANIFEST
 # Django
 *.log
 local_settings.py
-db.sqlite3
+
 db.sqlite3-journal
 /media
 /staticfiles
-
 # IDEs
 .vscode/
 .idea/
@@ -69,3 +68,11 @@ Thumbs.db
 node_modules/
 npm-debug.log
 yarn-error.log
+
+
+
+
+
+teams/management
+Team Registry.xlsx
+~$Team Registry.xlsx

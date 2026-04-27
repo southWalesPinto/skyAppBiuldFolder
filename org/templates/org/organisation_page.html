@@ -44,32 +44,94 @@
       </label>
     </div>
 
-    <div class="organisation-canvas">
-      <div class="organisation-grid" data-org-grid>
-        {% for team in teams %}
-        <article
-          class="org-team-card"
-          data-org-team-card
-          data-team-name="{{ team.name|lower }}"
-          data-team-department="{{ team.department|default:'team'|lower }}"
-          data-team-type="{{ team.status|default:'team'|lower }}"
-          data-team-members="{{ team.members_count|default:0 }}"
-          data-team-dependencies="{% for dep in team.dependencies %}{% if dep.name %}{{ dep.name|lower }} {% else %}{{ dep|lower }} {% endif %}{% endfor %}"
-          style="--team-grad-start: {{ team.profile_gradient_start|default:'#5a40f5' }}; --team-grad-end: {{ team.profile_gradient_end|default:'#2f80ed' }};"
-        >
-          <h3>{{ team.name }}</h3>
-          <p>{{ team.department|default:"Team" }}</p>
-          <a href="{% url 'teams:team_profile' team.slug %}">View Details</a>
-        </article>
-        {% empty %}
-        <article class="org-team-card">
-          <h3>No Teams Found</h3>
-          <p>Add teams to see the organisation map.</p>
-          <a href="{% url 'teams:teams_page' %}">Go to Teams</a>
-        </article>
-        {% endfor %}
-      </div>
-      <p class="org-empty-state" data-org-empty-state hidden>No teams match your filters.</p>
+    <div class="organisation-view-panels">
+      <section class="organisation-network-panel" data-org-network-panel hidden>
+        <div class="organisation-map-overlay" aria-label="Organisation legend and controls">
+          <div class="organisation-legend" aria-label="Organisation legend">
+            <div class="organisation-legend-item">
+              <span class="legend-swatch legend-swatch--team"></span>
+              <span>Team node</span>
+            </div>
+            <div class="organisation-legend-item">
+              <span class="legend-swatch legend-swatch--edge"></span>
+              <span>Dependency link</span>
+            </div>
+            <div class="organisation-legend-item">
+              <span class="legend-swatch legend-swatch--focus"></span>
+              <span>Focused neighborhood</span>
+            </div>
+          </div>
+
+          <div class="organisation-zoom-controls" aria-label="Network zoom controls">
+            <button type="button" class="organisation-zoom-btn" data-org-zoom-out aria-label="Zoom out">−</button>
+            <button type="button" class="organisation-zoom-btn organisation-zoom-btn--wide" data-org-zoom-reset>Reset</button>
+            <button type="button" class="organisation-zoom-btn" data-org-zoom-in aria-label="Zoom in">+</button>
+          </div>
+        </div>
+
+        <aside class="organisation-inspector" data-org-inspector aria-live="polite" hidden>
+          <div class="organisation-inspector-body" data-org-inspector-body hidden>
+            <div class="organisation-inspector-header">
+              <h3 data-org-inspector-title></h3>
+              <p data-org-inspector-subtitle></p>
+            </div>
+            <dl class="organisation-inspector-stats">
+              <div>
+                <dt>Members</dt>
+                <dd data-org-inspector-members></dd>
+              </div>
+              <div>
+                <dt>Department</dt>
+                <dd data-org-inspector-department></dd>
+              </div>
+              <div>
+                <dt>Upstream</dt>
+                <dd data-org-inspector-upstream-count></dd>
+              </div>
+              <div>
+                <dt>Downstream</dt>
+                <dd data-org-inspector-downstream-count></dd>
+              </div>
+            </dl>
+            <div class="organisation-inspector-group">
+              <h4>Upstream dependencies</h4>
+              <ul data-org-inspector-upstream></ul>
+            </div>
+            <div class="organisation-inspector-group">
+              <h4>Downstream dependents</h4>
+              <ul data-org-inspector-downstream></ul>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="organisation-grid-panel" data-org-grid-panel>
+        <div class="organisation-grid" data-org-grid>
+          {% for team in teams %}
+          <article
+            class="org-team-card"
+            data-org-team-card
+            data-team-name="{{ team.name|lower }}"
+            data-team-department="{{ team.department|default:'team'|lower }}"
+            data-team-type="{{ team.status|default:'team'|lower }}"
+            data-team-members="{{ team.members_count|default:0 }}"
+            data-team-dependencies="{% for dep in team.dependency_links %}{% if not forloop.first %}|||{% endif %}{{ dep.name|lower }}::{{ dep.direction|default:'upstream' }}::{{ dep.type|default:'dependency'|lower }}{% endfor %}"
+            style="--team-grad-start: {{ team.profile_gradient_start|default:'#5a40f5' }}; --team-grad-end: {{ team.profile_gradient_end|default:'#2f80ed' }};"
+          >
+            <h3>{{ team.name }}</h3>
+            <p>{{ team.department|default:"Team" }}</p>
+            <a href="{% url 'teams:team_profile' team.slug %}">View Details</a>
+          </article>
+          {% empty %}
+          <article class="org-team-card">
+            <h3>No Teams Found</h3>
+            <p>Add teams to see the organisation map.</p>
+            <a href="{% url 'teams:teams_page' %}">Go to Teams</a>
+          </article>
+          {% endfor %}
+        </div>
+        <p class="org-empty-state" data-org-empty-state hidden>No teams match your filters.</p>
+      </section>
     </div>
   </section>
 </section>
