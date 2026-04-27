@@ -32,7 +32,7 @@ class SignUpUserTypeTests(TestCase):
     def test_signup_creates_team_member_profile(self):
         response = self._signup("team_member", "member_user", "member@example.com", self.team.pk)
 
-        self.assertRedirects(response, reverse("signup_success"))
+        self.assertRedirects(response, reverse("login"))
         user = get_user_model().objects.get(username="member_user")
 
         self.assertTrue(TeamMember.objects.filter(user=user).exists())
@@ -44,7 +44,7 @@ class SignUpUserTypeTests(TestCase):
     def test_signup_creates_team_lead_profile(self):
         response = self._signup("team_lead", "lead_user", "lead@example.com", self.team.pk)
 
-        self.assertRedirects(response, reverse("signup_success"))
+        self.assertRedirects(response, reverse("login"))
         user = get_user_model().objects.get(username="lead_user")
 
         self.assertTrue(TeamLead.objects.filter(user=user).exists())
@@ -56,7 +56,7 @@ class SignUpUserTypeTests(TestCase):
     def test_signup_creates_department_manager_profile(self):
         response = self._signup("department_manager", "manager_user", "manager@example.com", self.team.pk)
 
-        self.assertRedirects(response, reverse("signup_success"))
+        self.assertRedirects(response, reverse("login"))
         user = get_user_model().objects.get(username="manager_user")
 
         self.assertTrue(DepartmentManager.objects.filter(user=user).exists())

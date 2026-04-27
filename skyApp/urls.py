@@ -55,4 +55,5 @@ urlpatterns = [
     path("meetings/", include("meetings.urls")),
     path("messaging/", include("messaging.urls")),
     path("audit/", include("audit.urls")),
+    path("organisation/", include("org.urls")),
 ]

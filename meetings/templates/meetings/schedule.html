@@ -1,4 +1,5 @@
 {% extends "home/base.html" %}
+{% load static %}
 
 {% block title %}Schedule{% endblock %}
 {% block page_title %}Schedule{% endblock %}
@@ -78,7 +79,7 @@
     </div>
 
     <div class="schedule-cta-row">
-      <a class="schedule-cta-btn" href="{% url 'meetings:create_meeting' %}">+ Schedule Meeting</a>
+      <button class="schedule-cta-btn" type="button" data-schedule-open-modal>+ Schedule Meeting</button>
     </div>
   </div>
 
@@ -89,11 +90,11 @@
       {% for meeting in meetings|slice:":3" %}
       <article class="upcoming-card">
         <header>
-          <h4>{{ meeting.title }}</h4>
+          <h4>{{ meeting.title|default:"Scheduled Meeting" }}</h4>
           <span class="upcoming-menu">...</span>
         </header>
-        <p class="upcoming-time">{{ meeting.date }}</p>
-        <p class="upcoming-team">Engineering Team</p>
+        <p class="upcoming-time">{{ meeting.date|default:"No date" }}{% if meeting.time %} · {{ meeting.time|time:"g:i A" }}{% endif %}</p>
+        <p class="upcoming-team">{{ meeting.platform|default:"Engineering Team" }}</p>
         <div class="upcoming-avatars">
           <span></span><span></span><span></span>
         </div>
@@ -103,9 +104,68 @@
       <article class="upcoming-card upcoming-card-empty">
         <header><h4>No meetings yet</h4></header>
         <p class="upcoming-time">Create your first scheduled meeting.</p>
-        <a class="upcoming-link" href="{% url 'meetings:create_meeting' %}">Go to meeting form</a>
+        <button class="upcoming-link" type="button" data-schedule-open-modal>Open scheduler</button>
       </article>
     {% endif %}
   </aside>
 </section>
+
+<div class="schedule-modal {% if open_create_modal or form.errors %}is-open{% endif %}" data-schedule-modal-root>
+  <div class="schedule-modal-backdrop" data-schedule-close-modal></div>
+
+  <section class="schedule-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="schedule-modal-title">
+    <header class="schedule-modal-header">
+      <h3 id="schedule-modal-title">Schedule Meeting</h3>
+      <a class="schedule-modal-close" href="{% url 'meetings:meeting_list' %}" aria-label="Close schedule modal">&times;</a>
+    </header>
+
+    <form method="post" action="{% url 'meetings:create_meeting' %}" class="schedule-modal-form">
+      {% csrf_token %}
+      {% if form.errors %}
+      <ul class="schedule-form-errors">
+        {% for field in form %}
+          {% for error in field.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <input type="hidden" name="title" value="{{ form.title.value|default:'Scheduled Meeting' }}">
+
+      <div class="schedule-field-row">
+        <div class="schedule-field">
+          <label for="id_date">Date</label>
+          <input id="id_date" name="date" type="date" value="{{ form.date.value|default:'' }}">
+        </div>
+
+        <div class="schedule-field">
+          <label for="id_time">Time</label>
+          <input id="id_time" name="time" type="time" value="{{ form.time.value|default:'' }}">
+        </div>
+      </div>
+
+      <div class="schedule-field">
+        <label for="id_platform">Platform</label>
+        <input id="id_platform" name="platform" type="text" placeholder="Zoom, Teams, Google Meet..." value="{{ form.platform.value|default:'' }}">
+      </div>
+
+      <div class="schedule-field">
+        <label for="id_message">Message</label>
+        <textarea id="id_message" name="message" rows="4" placeholder="Add meeting agenda or notes...">{{ form.message.value|default:'' }}</textarea>
+      </div>
+
+      <div class="schedule-modal-actions">
+        <button class="schedule-modal-submit" type="submit">Schedule</button>
+      </div>
+    </form>
+  </section>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'JS/pages/meetings/schedule.js' %}" defer></script>
 {% endblock %}
