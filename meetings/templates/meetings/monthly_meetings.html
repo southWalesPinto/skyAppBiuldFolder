@@ -1,9 +1,33 @@
-<h1>Monthly Meetings</h1>
+{% extends "home/base.html" %}
+{% load static %}
 
-<ul>
-{% for meeting in meetings %}
-    <li>{{ meeting.title }} - {{ meeting.date }}</li>
-{% endfor %}
-</ul>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'Css/pages/meetings/schedule.css' %}">
+{% endblock %}
 
-<a href="/meetings/">Back</a>
+{% block title %}Monthly Meetings{% endblock %}
+{% block page_title %}Monthly Meetings{% endblock %}
+
+{% block content %}
+
+<section class="schedule-page">
+
+  <div class="schedule-main-card">
+    <h2>Monthly Meetings</h2>
+
+    {% if meetings %}
+      <ul>
+        {% for meeting in meetings %}
+          <li>{{ meeting.title }} – {{ meeting.date }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No meetings available.</p>
+    {% endif %}
+
+    <a href="{% url 'meetings:meeting_list' %}" class="schedule-cta-btn">Back</a>
+  </div>
+
+</section>
+
+{% endblock %}
