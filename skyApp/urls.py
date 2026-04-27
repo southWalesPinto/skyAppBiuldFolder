@@ -53,5 +53,6 @@ urlpatterns = [
     ),
     path("teams/", include("teams.urls")),
     path("meetings/", include("meetings.urls")),
+    path("messaging/", include("messaging.urls")),
     path("audit/", include("audit.urls")),
 ]

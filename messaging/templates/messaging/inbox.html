@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inbox</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .message {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .unread {
+            font-weight: bold;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Inbox</h1>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="message {% if not message.is_read %}unread{% endif %}">
+            <h3>{{ message.subject }}</h3>
+            <p><strong>From:</strong> {{ message.sender }}</p>
+            <p><strong>Date:</strong> {{ message.sent_at }}</p>
+
+            <a href="{% url 'messaging:view_message' message.id %}">View Message</a>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No messages in your inbox.</p>
+{% endif %}
+
+</body>
+</html>

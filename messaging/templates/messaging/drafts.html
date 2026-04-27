@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drafts</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f8;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .message {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 5px solid #f39c12;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        a {
+            color: #f39c12;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Drafts</h1>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="message">
+            <h3>{{ message.subject|default:"(No subject)" }}</h3>
+            <p>{{ message.body|truncatewords:20 }}</p>
+
+            <a href="{% url 'messaging:edit_draft' message.id %}">Edit Draft</a>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No drafts saved.</p>
+{% endif %}
+
+</body>
+</html>
