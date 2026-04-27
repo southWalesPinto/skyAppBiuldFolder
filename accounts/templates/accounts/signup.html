@@ -31,8 +31,10 @@
       <div class="signup-column signup-team-column">
         <div class="field">
           <label for="{{ form.team.id_for_label }}">Choose a Team</label>
-          {{ form.team }}
-          <div class="team-select-list" data-team-picker>
+          <div class="team-dropdown-wrapper" data-team-wrapper>
+            {{ form.team }}
+            <div class="team-select-list" data-team-picker>
+              <input type="text" class="team-search-input" placeholder="Search teams..." data-team-search>
             {% for team in teams %}
             <button type="button" class="team-select-card" data-team-option data-team-value="{{ team.pk }}" data-team-name="{{ team.name }}" data-team-lead="{{ team.lead_name }}">
               <span class="team-select-badge">{{ team.initials }}</span>
@@ -42,6 +44,7 @@
               </span>
             </button>
             {% endfor %}
+            </div>
           </div>
           <p class="team-select-hint" data-team-selection-hint>Pick a team to attach to your profile.</p>
         </div>
