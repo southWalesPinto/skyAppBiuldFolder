@@ -1,0 +1,80 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}View Profile{% endblock %}
+{% block page_title %}View Profile{% endblock %}
+
+{% block content %}
+<section class="organisation-page" aria-label="Organisation page" data-organisation-page>
+  <aside class="organisation-filters">
+    <h2>Filters</h2>
+
+    <div class="org-field">
+      <label for="department-filter">Department</label>
+      <input id="department-filter" type="text" placeholder="Filter by department" data-org-filter="department">
+    </div>
+
+    <div class="org-field">
+      <label for="team-type-filter">Team Type</label>
+      <input id="team-type-filter" type="text" placeholder="Filter by team type" data-org-filter="team_type">
+    </div>
+
+    <div class="org-field">
+      <label for="dependencies-filter">Dependencies</label>
+      <input id="dependencies-filter" type="text" placeholder="Filter by dependencies" data-org-filter="dependencies">
+    </div>
+
+    <div class="org-stats">
+      <p><span>Total Teams</span><strong data-org-total-teams>{{ teams|length }}</strong></p>
+      <p><span>Total Members</span><strong data-org-total-members>{{ total_members }}</strong></p>
+    </div>
+  </aside>
+
+  <section class="organisation-canvas-wrap">
+    <div class="organisation-toolbar">
+      <div class="organisation-view-switch" role="tablist" aria-label="View mode">
+        <button type="button" class="org-view-btn" data-org-view="network">Network View</button>
+        <button type="button" class="org-view-btn is-active" data-org-view="grid">Grid View</button>
+      </div>
+
+      <a class="org-export-btn" href="{% url 'audit:report' %}">Export</a>
+
+      <label class="org-search" aria-label="Search teams">
+        <input type="search" placeholder="Search teams or dependencies" data-org-global-search>
+      </label>
+    </div>
+
+    <div class="organisation-canvas">
+      <div class="organisation-grid" data-org-grid>
+        {% for team in teams %}
+        <article
+          class="org-team-card"
+          data-org-team-card
+          data-team-name="{{ team.name|lower }}"
+          data-team-department="{{ team.department|default:'team'|lower }}"
+          data-team-type="{{ team.status|default:'team'|lower }}"
+          data-team-members="{{ team.members_count|default:0 }}"
+          data-team-dependencies="{% for dep in team.dependencies %}{% if dep.name %}{{ dep.name|lower }} {% else %}{{ dep|lower }} {% endif %}{% endfor %}"
+          style="--team-grad-start: {{ team.profile_gradient_start|default:'#5a40f5' }}; --team-grad-end: {{ team.profile_gradient_end|default:'#2f80ed' }};"
+        >
+          <h3>{{ team.name }}</h3>
+          <p>{{ team.department|default:"Team" }}</p>
+          <a href="{% url 'teams:team_profile' team.slug %}">View Details</a>
+        </article>
+        {% empty %}
+        <article class="org-team-card">
+          <h3>No Teams Found</h3>
+          <p>Add teams to see the organisation map.</p>
+          <a href="{% url 'teams:teams_page' %}">Go to Teams</a>
+        </article>
+        {% endfor %}
+      </div>
+      <p class="org-empty-state" data-org-empty-state hidden>No teams match your filters.</p>
+    </div>
+  </section>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'JS/pages/organisation/organisation.js' %}" defer></script>
+{% endblock %}

@@ -1,17 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Meeting</title>
-</head>
-<body>
-    <h1>Create Meeting</h1>
+{% extends "home/base.html" %}
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
+{% block title %}Redirecting{% endblock %}
+{% block page_title %}Schedule{% endblock %}
 
-    <a href="/meetings/">Back</a>
-</body>
-</html>
+{% block content %}
+<section class="schedule-fallback" aria-label="Create meeting fallback">
+  <h2>Redirecting to Schedule</h2>
+  <p>The create meeting form is now shown as an overlay on the Schedule page.</p>
+  <p><a href="{% url 'meetings:meeting_list' %}">Continue to Schedule</a></p>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  window.location.replace("{% url 'meetings:meeting_list' %}");
+</script>
+{% endblock %}

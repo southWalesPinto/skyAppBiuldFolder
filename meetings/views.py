@@ -4,28 +4,42 @@ from .forms import MeetingForm
 from .models import Meeting
 
 
-def meeting_list(request):
+def _schedule_context(form=None, open_create_modal=False):
     meetings = Meeting.objects.all()
-    return render(
-        request,
-        "meetings/schedule.html",
-        {
-            "meetings": meetings,
-            "active_nav": "schedule",
-        },
-    )
+    return {
+        "meetings": meetings,
+        "active_nav": "schedule",
+        "form": form or MeetingForm(),
+        "open_create_modal": open_create_modal,
+    }
+
+
+def meeting_list(request):
+    return render(request, "meetings/schedule.html", _schedule_context())
 
 
 def create_meeting(request):
     if request.method == "POST":
         form = MeetingForm(request.POST)
         if form.is_valid():
-            form.save()
+            meeting = form.save(commit=False)
+            if request.user.is_authenticated:
+                meeting.created_by = request.user
+            if not meeting.title:
+                meeting.title = "Scheduled Meeting"
+            meeting.save()
             return redirect("meetings:meeting_list")
-    else:
-        form = MeetingForm()
+        return render(
+            request,
+            "meetings/schedule.html",
+            _schedule_context(form=form, open_create_modal=True),
+        )
 
-    return render(request, "meetings/create_meeting.html", {"form": form})
+    return render(
+        request,
+        "meetings/schedule.html",
+        _schedule_context(open_create_modal=True),
+    )
 
 
 def upcoming_meetings(request):

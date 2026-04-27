@@ -79,7 +79,7 @@ def signup(request):
 
 
 def signup_success(request):
-    return render(request, "accounts/signup_success.html")
+    return redirect("login")
 
 
 def redirecting(request):
