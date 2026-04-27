@@ -3,12 +3,38 @@ import uuid
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.db.models import Case, IntegerField, Value, When
 
 from teams.models import Teams
 
 from .models import DepartmentManager, TeamLead, TeamMember
 
 User = get_user_model()
+
+
+TEAM_DIAGRAM_ORDER = [
+    "Core Team",
+    "Mobile",
+    "Team Gamma",
+    "Team Zeta",
+    "Team Epsilon",
+    "Team Theta",
+    "Team Delta",
+    "Team Beta",
+    "Team Alpha",
+    "Backend Team",
+    "Security Team",
+    "Frontend Team",
+]
+
+
+def ordered_team_queryset():
+    order_case = Case(
+        *[When(name=name, then=Value(index)) for index, name in enumerate(TEAM_DIAGRAM_ORDER)],
+        default=Value(len(TEAM_DIAGRAM_ORDER)),
+        output_field=IntegerField(),
+    )
+    return Teams.objects.annotate(_team_order=order_case).order_by("_team_order", "name")
 
 
 class SignUpForm(UserCreationForm):
@@ -34,7 +60,7 @@ class SignUpForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["team"].queryset = Teams.objects.order_by("name")
+        self.fields["team"].queryset = ordered_team_queryset()
         self.fields["password1"].widget.attrs["placeholder"] = "Password"
         self.fields["password2"].widget.attrs["placeholder"] = "Confirm password"
         self.fields["phone_number"].widget.attrs["placeholder"] = "Phone number (optional)"
