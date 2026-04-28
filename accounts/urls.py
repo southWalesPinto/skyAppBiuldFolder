@@ -17,6 +17,8 @@ urlpatterns = [
     path("logout/", views.sky_logout, name="logout"),
     path("signup/", views.signup, name="signup"),
     path("signup/success/", views.signup_success, name="signup_success"),
+    path("profile/", views.view_profile, name="profile_view"),
+    path("profile/edit/", views.edit_profile, name="profile_edit"),
     path("redirecting/", views.redirecting, name="redirecting"),
     path("signed-out/", views.logged_out, name="logged_out"),
     path(

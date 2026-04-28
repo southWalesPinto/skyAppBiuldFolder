@@ -1,6 +1,99 @@
 {% extends "home/base.html" %}
+{% load static %}
+
 {% block title %}Dashboard{% endblock %}
 
-{% block content %}
+{% block extra_scripts %}
+<script src="{% static 'JS/pages/dashboard/dashboard.js' %}" defer></script>
+<link rel="stylesheet" href="{% static 'Css/pages/dashboard/dashboard.css' %}">
+{% endblock %}
 
+{% block content %}
+<section class="dashboard-page" data-dashboard>
+  <!-- Welcome Header -->
+  <div class="dashboard-header">
+    <div>
+      <h1 class="dashboard-title">Welcome, {{ user.first_name }}!</h1>
+      <p class="dashboard-subtitle">{{ user.profile.role|default:"Team Member" }}</p>
+    </div>
+    <div class="dashboard-search">
+      <label class="dashboard-search-input">
+        <span class="dashboard-search-icon">⌕</span>
+        <input type="search" placeholder="Search teams, departments, or managers..." data-dashboard-search>
+      </label>
+    </div>
+  </div>
+
+  <!-- Quick Action Cards -->
+  <div class="dashboard-quick-actions">
+    <a href="{% url 'teams:teams_page' %}" class="dashboard-action-card dashboard-action-card--find">
+      <div class="dashboard-action-icon">⌕</div>
+      <div class="dashboard-action-content">
+        <h3>Find a Team</h3>
+        <p>Search and filter through all teams</p>
+      </div>
+    </a>
+
+    <a href="{% url 'org:organisation_page' %}" class="dashboard-action-card dashboard-action-card--map">
+      <div class="dashboard-action-icon">∿</div>
+      <div class="dashboard-action-content">
+        <h3>View Map</h3>
+        <p>Explore hierarchies and dependencies</p>
+      </div>
+    </a>
+
+    <a href="{% url 'messaging:inbox' %}" class="dashboard-action-card dashboard-action-card--contact">
+      <div class="dashboard-action-icon">✉</div>
+      <div class="dashboard-action-content">
+        <h3>Contact Teams</h3>
+        <p>Quick access to team communication</p>
+      </div>
+    </a>
+  </div>
+
+  <!-- Recently Visited Teams -->
+  {% if recent_teams %}
+  <section class="dashboard-section">
+    <div class="dashboard-section-header">
+      <h2 class="dashboard-section-title">Recently Visited Teams</h2>
+    </div>
+    <div class="dashboard-recent-teams-grid">
+      {% for team in recent_teams %}
+      {% with start=team.profile_gradient_start|default:"#4B5BE5" end=team.profile_gradient_end|default:"#7B68EE" %}
+      <div class="dashboard-team-card" data-team-id="{{ team.id }}">
+        <div class="dashboard-team-badge" style="background: linear-gradient(135deg, {{ start }} 0%, {{ end }} 100%);">
+          <span>{{ team.initials }}</span>
+        </div>
+        <div class="dashboard-team-info">
+          <h4 class="dashboard-team-name">{{ team.name }}</h4>
+          <p class="dashboard-team-lead">Manager: {{ team.lead_name }}</p>
+          <p class="dashboard-team-members">👥 {{ team.members_count }} members</p>
+        </div>
+      </div>
+      {% endwith %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Recent Activities -->
+  {% if recent_activities %}
+  <section class="dashboard-section">
+    <div class="dashboard-section-header">
+      <h2 class="dashboard-section-title">Recent Activities</h2>
+    </div>
+    <div class="dashboard-activities-list">
+      {% for activity in recent_activities %}
+      <div class="dashboard-activity-item">
+        <div class="dashboard-activity-icon">{{ activity.icon }}</div>
+        <div class="dashboard-activity-content">
+          <p class="dashboard-activity-text">{{ activity.description }}</p>
+          <time class="dashboard-activity-time" datetime="{{ activity.timestamp|date:'c' }}">{{ activity.timestamp|timesince }} ago</time>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+</section>
 {% endblock %}

@@ -31,18 +31,6 @@
   </div> 
 
 
-  <section class="team-name-list-card">
-    <div class="team-name-list-header">
-      <h2>Team Names</h2>
-      <p>A quick index of every team currently in the directory.</p>
-    </div>
-    <div class="team-name-list" aria-label="Team names list">
-      {% for team in teams %}
-      <a class="team-name-pill" href="{% url 'teams:team_profile' slug=team.slug %}">{{ team.name }}</a>
-      {% endfor %}
-    </div>
-  </section>
-
   <div class="team-card-grid" data-team-directory-grid>
     {% for team in teams %}
     <article
