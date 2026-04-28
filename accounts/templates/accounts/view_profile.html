@@ -19,7 +19,7 @@
   <div class="profile-container">
     <!-- Background Banner -->
     {% with start=user.profile.avatar_gradient_start|default:"#4B5BE5" end=user.profile.avatar_gradient_end|default:"#7B68EE" %}
-    <div class="profile-banner" style="background: linear-gradient(135deg, {{ start }} 0%, {{ end }} 100%);"></div>
+    <div class="profile-banner"></div>
     {% endwith %}
 
     <!-- Profile Main Content -->
@@ -27,7 +27,7 @@
       <!-- Avatar and Header Section -->
       <div class="profile-header-section">
         {% with start=user.profile.avatar_gradient_start|default:"#4B5BE5" end=user.profile.avatar_gradient_end|default:"#7B68EE" %}
-        <div class="profile-avatar" style="background: linear-gradient(135deg, {{ start }} 0%, {{ end }} 100%);">
+        <div class="profile-avatar">
           <span>{{ user.profile.get_initials }}</span>
         </div>
         {% endwith %}
