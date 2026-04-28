@@ -1,0 +1,82 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}View Message{% endblock %}
+{% block page_title %}View Message{% endblock %}
+{% block profile_role %}Backend Developer{% endblock %}
+
+{% block extra_head %}
+<style>
+    .message-card {
+        background: white;
+        padding: 28px;
+        max-width: 800px;
+        border: 1px solid #dcdcdc;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    .message-card h1 {
+        margin: 0 0 12px 0;
+        color: #222;
+        font-size: 24px;
+    }
+
+    .meta {
+        color: #666;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    hr {
+        margin: 18px 0;
+        border: none;
+        border-top: 1px solid #e5e5e5;
+    }
+
+    .body-text {
+        font-size: 15px;
+        color: #222;
+        white-space: pre-wrap;
+        line-height: 1.6;
+    }
+
+    .back {
+        display: inline-block;
+        margin-top: 20px;
+        color: #1f2d3d;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .back:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="message-card">
+    <h1>{{ message.subject|default:"(No subject)" }}</h1>
+
+    <p class="meta">
+        <strong>From:</strong> {{ message.sender }} <br>
+        <strong>To:</strong> {{ message.recipient }} <br>
+        <strong>Date:</strong>
+        {% if message.sent_at %}
+            {{ message.sent_at|date:"M d, Y H:i" }}
+        {% else %}
+            {{ message.created_at|date:"M d, Y H:i" }}
+        {% endif %}
+    </p>
+
+    <hr>
+
+    <div class="body-text">
+        {{ message.body }}
+    </div>
+
+    <a class="back" href="{% url 'messaging:inbox' %}">← Back to Inbox</a>
+</div>
+
+{% endblock %}

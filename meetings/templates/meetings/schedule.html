@@ -1,6 +1,8 @@
 {% extends "home/base.html" %}
 {% load static %}
-
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'Css/pages/meetings/schedule.css' %}">
+{% endblock %}
 {% block title %}Schedule{% endblock %}
 {% block page_title %}Schedule{% endblock %}
 
@@ -13,12 +15,15 @@
         <h2>March 2025</h2>
         <button class="schedule-icon-btn" type="button" aria-label="Next month">&#8250;</button>
       </div>
+         <div class="schedule-tabs" role="tablist" aria-label="Schedule views">
 
-      <div class="schedule-tabs" role="tablist" aria-label="Schedule views">
-        <button class="schedule-tab is-active" type="button">Monthly</button>
-        <button class="schedule-tab" type="button">Weekly</button>
-        <button class="schedule-tab" type="button">Agenda</button>
-      </div>
+         <a href="{% url 'meetings:monthly_meetings' %}" class="schedule-tab is-active">Monthly</a>
+
+          <a href="{% url 'meetings:weekly_meetings' %}" class="schedule-tab">Weekly</a>
+
+          <a href="{% url 'meetings:upcoming_meetings' %}" class="schedule-tab">Agenda</a>
+
+         </div>
     </div>
 
     <div class="calendar-shell">
