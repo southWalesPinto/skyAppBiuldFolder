@@ -4,6 +4,7 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.utils import timezone
+import json
 
 from .forms import LoginForm, SignUpForm, ordered_team_queryset
 from audit.models import AuditLog
@@ -17,7 +18,58 @@ def home(request):
 
 
 def dashboard(request):
-    return render(request, "accounts/dashboard.html", {"active_nav": "dashboard"})
+    from django.db.models import Q
+    
+    # Get recent teams (teams the user is member of)
+    recent_teams = []
+    if hasattr(request.user, 'teammember_profile'):
+        team = request.user.teammember_profile.team
+        if team:
+            recent_teams = [team]
+    elif hasattr(request.user, 'teamlead_profile'):
+        team = request.user.teamlead_profile.team
+        if team:
+            recent_teams = [team]
+    elif hasattr(request.user, 'departmentmanager_profile'):
+        team = request.user.departmentmanager_profile.team
+        if team:
+            recent_teams = [team]
+    
+    # If no team found, show random teams for demo
+    if not recent_teams:
+        recent_teams = Teams.objects.all()[:3]
+    
+    # Get recent activities (last 5 team-related audit logs)
+    recent_activities = AuditLog.objects.filter(
+        action__in=['team_created', 'team_updated', 'member_added', 'dependency_changed']
+    ).order_by('-timestamp')[:5]
+    
+    # Format activities with icons and descriptions
+    activity_icons = {
+        'team_created': '✨',
+        'team_updated': '📝',
+        'member_added': '👥',
+        'dependency_changed': '🔗',
+        'login': '🔓',
+        'logout': '🔒',
+    }
+    
+    activities_formatted = []
+    for activity in recent_activities:
+        activity_dict = {
+            'description': activity.details,
+            'timestamp': activity.timestamp,
+            'icon': activity_icons.get(activity.action, '📋'),
+        }
+        activities_formatted.append(activity_dict)
+    
+    context = {
+        "active_nav": "dashboard",
+        "recent_teams": recent_teams,
+        "recent_activities": activities_formatted,
+    }
+    
+    return render(request, "accounts/dashboard.html", context)
 
 
 class SkyLoginView(LoginView):
@@ -99,3 +151,63 @@ def sky_logout(request):
         details=f"User {user.username} logged out at {timezone.now()}"
     )
     return redirect("logged_out")
+
+def view_profile(request):
+    """Display user profile"""
+    from django.contrib.auth.decorators import login_required
+    from django.http import HttpResponse
+    
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    # Ensure user has a profile
+    profile, created = request.user.profile.__class__.objects.get_or_create(user=request.user)
+    
+    return render(request, "accounts/view_profile.html", {
+        "active_nav": "profile",
+    })
+
+
+def edit_profile(request):
+    """Edit user profile"""
+    from django.contrib.auth.decorators import login_required
+    
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    # Ensure user has a profile
+    profile, created = request.user.profile.__class__.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        # Get form data
+        role = request.POST.get('role', 'other')
+        phone_number = request.POST.get('phone_number', '')
+        department = request.POST.get('department', '')
+        about = request.POST.get('about', '')
+        skills_json = request.POST.get('skills_json', '[]')
+        
+        # Parse skills
+        try:
+            skills = json.loads(skills_json)
+        except json.JSONDecodeError:
+            skills = []
+        
+        # Update profile
+        profile.role = role
+        profile.phone_number = phone_number
+        profile.department = department
+        profile.about = about
+        profile.skills = skills
+        profile.save()
+        
+        AuditLog.objects.create(
+            action='profile_updated',
+            user=request.user,
+            details=f"User {request.user.username} updated their profile"
+        )
+        
+        return redirect('accounts:profile_view')
+    
+    return render(request, "accounts/edit_profile.html", {
+        "active_nav": "profile",
+    })

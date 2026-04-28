@@ -24,7 +24,7 @@
       <nav class="side-nav" aria-label="Primary">
         <a class="nav-item {% if active_nav == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
         <a class="nav-item {% if active_nav == 'teams' %}active{% endif %}" href="{% url 'teams:teams_page' %}"><span class="nav-icon">☰</span><span>Teams</span></a>
-        <a class="nav-item {% if active_nav == 'organisation' %}active{% endif %}" href="#"><span class="nav-icon">⌂</span><span>Organisation</span></a>
+        <a class="nav-item {% if active_nav == 'organisation' %}active{% endif %}" href="{% url 'org:organisation_page' %}"><span class="nav-icon">⌂</span><span>Organisation</span></a>
         <a class="nav-item {% if active_nav == 'messages' %}active{% endif %}" href="{% url 'messaging:inbox' %}"><span class="nav-icon">✉</span><span>Messages</span></a>
         <a class="nav-item {% if active_nav == 'schedule' %}active{% endif %}" href="{% url 'meetings:meeting_list' %}"><span class="nav-icon">◷</span><span>Schedule</span></a>
       </nav>
@@ -58,7 +58,7 @@
             </button>
 
             <div class="profile-dropdown" id="profile-menu-panel" data-profile-menu hidden>
-              <a href="#" class="profile-dropdown-item">
+              <a href="{% url 'accounts:profile_view' %}" class="profile-dropdown-item">
                 <span class="profile-item-icon profile-item-icon-profile">👥</span>
                 <span class="profile-item-copy">
                   <strong>View Profile</strong>

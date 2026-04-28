@@ -1,0 +1,110 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}{{ user.get_full_name }} - Profile{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'JS/pages/profile/profile.js' %}" defer></script>
+<link rel="stylesheet" href="{% static 'Css/pages/profile/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="profile-page" data-profile>
+  <!-- Profile Header with Back Button -->
+  <div class="profile-header">
+    <a href="{% url 'dashboard' %}" class="profile-back-button">← Back To Dashboard</a>
+  </div>
+
+  <!-- Profile Card -->
+  <div class="profile-container">
+    <!-- Background Banner -->
+    {% with start=user.profile.avatar_gradient_start|default:"#4B5BE5" end=user.profile.avatar_gradient_end|default:"#7B68EE" %}
+    <div class="profile-banner" style="background: linear-gradient(135deg, {{ start }} 0%, {{ end }} 100%);"></div>
+    {% endwith %}
+
+    <!-- Profile Main Content -->
+    <div class="profile-content">
+      <!-- Avatar and Header Section -->
+      <div class="profile-header-section">
+        {% with start=user.profile.avatar_gradient_start|default:"#4B5BE5" end=user.profile.avatar_gradient_end|default:"#7B68EE" %}
+        <div class="profile-avatar" style="background: linear-gradient(135deg, {{ start }} 0%, {{ end }} 100%);">
+          <span>{{ user.profile.get_initials }}</span>
+        </div>
+        {% endwith %}
+        
+        <div class="profile-title-section">
+          <h1 class="profile-name">{{ user.get_full_name }}</h1>
+          <p class="profile-role">{{ user.profile.get_role_display_name }}</p>
+        </div>
+
+        <a href="{% url 'accounts:profile_edit' %}" class="profile-edit-button">✎ Edit Profile</a>
+      </div>
+
+      <!-- Info Grid -->
+      <div class="profile-info-grid">
+        <div class="profile-info-card profile-info-card--email">
+          <div class="profile-info-icon">✉</div>
+          <div class="profile-info-content">
+            <p class="profile-info-label">Email</p>
+            <p class="profile-info-value">{{ user.email }}</p>
+          </div>
+        </div>
+
+        <div class="profile-info-card profile-info-card--phone">
+          <div class="profile-info-icon">☎</div>
+          <div class="profile-info-content">
+            <p class="profile-info-label">Phone</p>
+            <p class="profile-info-value">{{ user.profile.phone_number|default:"Not provided" }}</p>
+          </div>
+        </div>
+
+        <div class="profile-info-card profile-info-card--department">
+          <div class="profile-info-icon">🏢</div>
+          <div class="profile-info-content">
+            <p class="profile-info-label">Department</p>
+            <p class="profile-info-value">{{ user.profile.department|default:"Not assigned" }}</p>
+          </div>
+        </div>
+
+        <div class="profile-info-card profile-info-card--team">
+          <div class="profile-info-icon">👥</div>
+          <div class="profile-info-content">
+            <p class="profile-info-label">Team</p>
+            <p class="profile-info-value">
+              {% if user.teammember_profile.team %}
+                {{ user.teammember_profile.team.name }}
+              {% elif user.teamlead_profile.team %}
+                {{ user.teamlead_profile.team.name }}
+              {% elif user.departmentmanager_profile.team %}
+                {{ user.departmentmanager_profile.team.name }}
+              {% else %}
+                Not assigned
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- About Section -->
+      {% if user.profile.about %}
+      <section class="profile-section">
+        <h2 class="profile-section-title">About</h2>
+        <p class="profile-about-text">{{ user.profile.about }}</p>
+      </section>
+      {% endif %}
+
+      <!-- Skills Section -->
+      {% if user.profile.skills %}
+      <section class="profile-section">
+        <h2 class="profile-section-title">Skills</h2>
+        <div class="profile-skills-list">
+          {% for skill in user.profile.skills %}
+          <span class="profile-skill-tag">{{ skill }}</span>
+          {% endfor %}
+        </div>
+      </section>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

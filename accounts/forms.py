@@ -7,7 +7,7 @@ from django.db.models import Case, IntegerField, Value, When
 
 from teams.models import Teams
 
-from .models import DepartmentManager, TeamLead, TeamMember
+from .models import DepartmentManager, TeamLead, TeamMember, UserProfile
 
 User = get_user_model()
 
@@ -106,6 +106,22 @@ class SignUpForm(UserCreationForm):
                 phone_number=phone_number,
                 notes=notes,
             )
+
+        # Create UserProfile
+        profile_role = 'other'
+        if user_type == 'team_member':
+            profile_role = 'frontend_developer'
+        elif user_type == 'team_lead':
+            profile_role = 'team_lead'
+        elif user_type == 'department_manager':
+            profile_role = 'manager'
+
+        UserProfile.objects.create(
+            user=user,
+            role=profile_role,
+            department=team.name if team else '',
+            about=notes or '',
+        )
 
         return user
 

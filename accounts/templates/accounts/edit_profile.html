@@ -1,0 +1,123 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block extra_scripts %}
+<script src="{% static 'JS/pages/profile/profile.js' %}" defer></script>
+<link rel="stylesheet" href="{% static 'Css/pages/profile/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="profile-page profile-edit-page" data-profile-edit>
+  <!-- Profile Header with Back Button -->
+  <div class="profile-header">
+    <a href="{% url 'accounts:profile_view' %}" class="profile-back-button">← Back To Dashboard</a>
+  </div>
+
+  <!-- Profile Edit Card -->
+  <div class="profile-container">
+    <!-- Background Banner -->
+    {% with start=user.profile.avatar_gradient_start|default:"#4B5BE5" end=user.profile.avatar_gradient_end|default:"#7B68EE" %}
+    <div class="profile-banner" style="background: linear-gradient(135deg, {{ start }} 0%, {{ end }} 100%);"></div>
+    {% endwith %}
+
+    <!-- Profile Edit Form -->
+    <div class="profile-content">
+      <div class="profile-header-section">
+        {% with start=user.profile.avatar_gradient_start|default:"#4B5BE5" end=user.profile.avatar_gradient_end|default:"#7B68EE" %}
+        <div class="profile-avatar" style="background: linear-gradient(135deg, {{ start }} 0%, {{ end }} 100%);">
+          <span>{{ user.profile.get_initials }}</span>
+        </div>
+        {% endwith %}
+        
+        <div class="profile-title-section">
+          <h1 class="profile-name">{{ user.get_full_name }}</h1>
+          <p class="profile-role">Edit your profile</p>
+        </div>
+
+        <div class="profile-form-actions">
+          <button class="profile-button profile-button--cancel" data-action="cancel">Cancel</button>
+          <button class="profile-button profile-button--save" data-action="save">Save Changes</button>
+        </div>
+      </div>
+
+      <!-- Edit Form -->
+      <form class="profile-edit-form" data-profile-form method="POST">
+        {% csrf_token %}
+
+        <div class="profile-form-grid">
+          <div class="profile-form-group">
+            <label for="full_name" class="profile-form-label">Full Name</label>
+            <input type="text" id="full_name" name="full_name" class="profile-form-input" value="{{ user.get_full_name }}" readonly>
+          </div>
+
+          <div class="profile-form-group">
+            <label for="role" class="profile-form-label">Role</label>
+            <select id="role" name="role" class="profile-form-input">
+              <option value="frontend_developer" {% if user.profile.role == 'frontend_developer' %}selected{% endif %}>Frontend Developer</option>
+              <option value="backend_developer" {% if user.profile.role == 'backend_developer' %}selected{% endif %}>Backend Developer</option>
+              <option value="full_stack_developer" {% if user.profile.role == 'full_stack_developer' %}selected{% endif %}>Full Stack Developer</option>
+              <option value="devops_engineer" {% if user.profile.role == 'devops_engineer' %}selected{% endif %}>DevOps Engineer</option>
+              <option value="qa_engineer" {% if user.profile.role == 'qa_engineer' %}selected{% endif %}>QA Engineer</option>
+              <option value="product_manager" {% if user.profile.role == 'product_manager' %}selected{% endif %}>Product Manager</option>
+              <option value="team_lead" {% if user.profile.role == 'team_lead' %}selected{% endif %}>Team Lead</option>
+              <option value="manager" {% if user.profile.role == 'manager' %}selected{% endif %}>Manager</option>
+              <option value="other" {% if user.profile.role == 'other' %}selected{% endif %}>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="profile-form-grid">
+          <div class="profile-form-group">
+            <label for="email" class="profile-form-label">Email</label>
+            <input type="email" id="email" name="email" class="profile-form-input" value="{{ user.email }}" readonly>
+          </div>
+
+          <div class="profile-form-group">
+            <label for="phone_number" class="profile-form-label">Phone Number</label>
+            <input type="tel" id="phone_number" name="phone_number" class="profile-form-input" value="{{ user.profile.phone_number }}">
+          </div>
+        </div>
+
+        <div class="profile-form-grid">
+          <div class="profile-form-group">
+            <label for="department" class="profile-form-label">Department</label>
+            <input type="text" id="department" name="department" class="profile-form-input" value="{{ user.profile.department }}">
+          </div>
+
+          <div class="profile-form-group">
+            <label for="team" class="profile-form-label">Team</label>
+            <input type="text" id="team" name="team" class="profile-form-input" value="{% if user.teammember_profile.team %}{{ user.teammember_profile.team.name }}{% elif user.teamlead_profile.team %}{{ user.teamlead_profile.team.name }}{% elif user.departmentmanager_profile.team %}{{ user.departmentmanager_profile.team.name }}{% endif %}" readonly>
+          </div>
+        </div>
+
+        <div class="profile-form-group">
+          <label for="about" class="profile-form-label">About</label>
+          <textarea id="about" name="about" class="profile-form-textarea" rows="6">{{ user.profile.about }}</textarea>
+        </div>
+
+        <div class="profile-skills-section">
+          <label class="profile-form-label">Skills</label>
+          <div class="profile-skills-editor">
+            <div class="profile-skills-list" data-skills-list>
+              {% for skill in user.profile.skills %}
+              <span class="profile-skill-tag profile-skill-editable">
+                {{ skill }}
+                <button type="button" class="profile-skill-remove" data-skill="{{ skill }}">×</button>
+              </span>
+              {% endfor %}
+            </div>
+            <div class="profile-skill-input-group">
+              <input type="text" id="new_skill" name="new_skill" class="profile-form-input" placeholder="Add a skill..." data-new-skill>
+              <button type="button" class="profile-button profile-button--add" data-action="add-skill">+ Add</button>
+            </div>
+          </div>
+        </div>
+
+        <input type="hidden" name="skills_json" id="skills_json" value="">
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

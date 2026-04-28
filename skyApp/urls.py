@@ -51,6 +51,7 @@ urlpatterns = [
         ),
         name="password_reset_complete",
     ),
+    path("accounts/", include("accounts.urls")),
     path("teams/", include("teams.urls")),
     path("meetings/", include("meetings.urls")),
     path("messaging/", include("messaging.urls")),
