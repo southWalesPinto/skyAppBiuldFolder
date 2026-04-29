@@ -2,21 +2,25 @@
 
 Django web app for managing users, teams, projects, meetings, and messaging.
 
-## Table of Contents
+## Who built what (Group Contributions)
 
-- Description
-- Tech
-- Prerequisites
-- Setup
-- Database
-- Run (development)
-- Tests
-- Static files
-- Features
+| Student | Contribution |
+|--------|--------------|
+| Thomas Mifsud | Accounts system, authentication, user profiles, database structure integration, backend coordination |
+| Janefa Jeba | Messaging system (conversation, inbox, sent, drafts, compose message) |
+| Mulugeta Zerufael | Scheduling system (meetings, calendar views, meeting management) |
+| Rehan Sohail | Reports system (PDF/Excel generation and reporting features) +  Audit Log|
 
 ## Description
 
-A modular Django project that provides internal team and project management features including accounts, projects, meetings, messaging, teams, and audit logs.
+- Browse and search all engineering teams, and filters by name or department  
+- View full team details including members, roles, skills, repositories and dependencies  
+- Send messages through a built-in inbox system (inbox, sent, drafts)  
+- Schedule meetings using monthly and weekly calendar views  
+- View organisation structure showing departments and team relationships  
+- Generate reports and download them as PDF or Excel files  
+- Register accounts, log in, update profiles, and manage passwords  
+- Admin panel for a full system management 
 
 ## Tech
 
@@ -78,6 +82,15 @@ Collect static files for deployment:
 
 ```bash
 python manage.py collectstatic
+```
+## Run migrations
+
+```bash
+python manage.py migrate
+```
+## Load sample data - messaging 
+```bash
+python3 manage.py loaddata data.json
 ```
 
 ## Features
