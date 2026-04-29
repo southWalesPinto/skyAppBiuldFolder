@@ -1,4 +1,4 @@
-# SkyAppBiuld
+# SkyAppBuild
 
 Django web app for managing users, teams, projects, meetings, and messaging.
 
