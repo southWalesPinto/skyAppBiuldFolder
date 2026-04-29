@@ -1,108 +1,112 @@
 [
-    {
-      "model": "messaging.conversation",
-      "pk": 1,
-      "fields": {
-        "participants": [9],
-        "created_at": "2026-04-27T12:00:00Z"
-      }
-    },
-    {
-      "model": "messaging.conversation",
-      "pk": 2,
-      "fields": {
-        "participants": [9],
-        "created_at": "2026-04-27T12:30:00Z"
-      }
-    },
-    {
-      "model": "messaging.message",
-      "pk": 1,
-      "fields": {
-        "conversation": 1,
-        "sender": 9,
-        "recipient": 9,
-        "subject": "Welcome to SkyApp",
-        "body": "Welcome adminSuper. This is your first inbox message in the system.",
-        "created_at": "2026-04-27T12:05:00Z",
-        "sent_at": "2026-04-27T12:05:00Z",
-        "is_read": false,
-        "is_draft": false
-      }
-    },
-    {
-      "model": "messaging.message",
-      "pk": 2,
-      "fields": {
-        "conversation": 1,
-        "sender": 9,
-        "recipient": 9,
-        "subject": "Project Reminder",
-        "body": "Reminder: check the messaging coursework requirements and verify all templates are linked correctly.",
-        "created_at": "2026-04-27T12:10:00Z",
-        "sent_at": "2026-04-27T12:10:00Z",
-        "is_read": true,
-        "is_draft": false
-      }
-    },
-    {
-      "model": "messaging.message",
-      "pk": 3,
-      "fields": {
-        "conversation": 1,
-        "sender": 9,
-        "recipient": 9,
-        "subject": "Draft Feature Check",
-        "body": "Test draft saved for adminSuper. Open this in drafts to confirm edit and delete work correctly.",
-        "created_at": "2026-04-27T12:15:00Z",
-        "sent_at": null,
-        "is_read": false,
-        "is_draft": true
-      }
-    },
-    {
-      "model": "messaging.message",
-      "pk": 4,
-      "fields": {
-        "conversation": 2,
-        "sender": 9,
-        "recipient": 9,
-        "subject": "Sent Message Example",
-        "body": "This is a seeded sent message so the Sent page has example content for testing.",
-        "created_at": "2026-04-27T12:35:00Z",
-        "sent_at": "2026-04-27T12:35:00Z",
-        "is_read": true,
-        "is_draft": false
-      }
-    },
-    {
-      "model": "messaging.message",
-      "pk": 5,
-      "fields": {
-        "conversation": 2,
-        "sender": 9,
-        "recipient": 9,
-        "subject": "Unread Test Message",
-        "body": "This unread message is here to test inbox bold styling and unread highlighting.",
-        "created_at": "2026-04-27T12:40:00Z",
-        "sent_at": "2026-04-27T12:40:00Z",
-        "is_read": false,
-        "is_draft": false
-      }
-    },
-    {
-      "model": "messaging.message",
-      "pk": 6,
-      "fields": {
-        "conversation": 2,
-        "sender": 9,
-        "recipient": 9,
-        "subject": "",
-        "body": "This message has no subject so you can test the default '(No subject)' fallback in templates.",
-        "created_at": "2026-04-27T12:45:00Z",
-        "sent_at": "2026-04-27T12:45:00Z",
-        "is_read": true,
-        "is_draft": false
-      }
+  {
+    "model": "messaging.conversation",
+    "pk": 1,
+    "fields": {
+      "participants": [
+        10
+      ],
+      "created_at": "2026-04-27T12:00:00Z"
     }
-  ]
+  },
+  {
+    "model": "messaging.conversation",
+    "pk": 2,
+    "fields": {
+      "participants": [
+        10
+      ],
+      "created_at": "2026-04-27T12:30:00Z"
+    }
+  },
+  {
+    "model": "messaging.message",
+    "pk": 1,
+    "fields": {
+      "conversation": 1,
+      "sender": 10,
+      "recipient": 10,
+      "subject": "Welcome to SkyApp",
+      "body": "Welcome adminSuper. This is your first inbox message in the system.",
+      "created_at": "2026-04-27T12:05:00Z",
+      "sent_at": "2026-04-27T12:05:00Z",
+      "is_read": false,
+      "is_draft": false
+    }
+  },
+  {
+    "model": "messaging.message",
+    "pk": 2,
+    "fields": {
+      "conversation": 1,
+      "sender": 10,
+      "recipient": 10,
+      "subject": "Project Reminder",
+      "body": "Reminder: check the messaging coursework requirements and verify all templates are linked correctly.",
+      "created_at": "2026-04-27T12:10:00Z",
+      "sent_at": "2026-04-27T12:10:00Z",
+      "is_read": true,
+      "is_draft": false
+    }
+  },
+  {
+    "model": "messaging.message",
+    "pk": 3,
+    "fields": {
+      "conversation": 1,
+      "sender": 10,
+      "recipient": 10,
+      "subject": "Draft Feature Check",
+      "body": "Test draft saved for adminSuper. Open this in drafts to confirm edit and delete work correctly.",
+      "created_at": "2026-04-27T12:15:00Z",
+      "sent_at": null,
+      "is_read": false,
+      "is_draft": true
+    }
+  },
+  {
+    "model": "messaging.message",
+    "pk": 4,
+    "fields": {
+      "conversation": 2,
+      "sender": 10,
+      "recipient": 10,
+      "subject": "Sent Message Example",
+      "body": "This is a seeded sent message so the Sent page has example content for testing.",
+      "created_at": "2026-04-27T12:35:00Z",
+      "sent_at": "2026-04-27T12:35:00Z",
+      "is_read": true,
+      "is_draft": false
+    }
+  },
+  {
+    "model": "messaging.message",
+    "pk": 5,
+    "fields": {
+      "conversation": 2,
+      "sender": 10,
+      "recipient": 10,
+      "subject": "Unread Test Message",
+      "body": "This unread message is here to test inbox bold styling and unread highlighting.",
+      "created_at": "2026-04-27T12:40:00Z",
+      "sent_at": "2026-04-27T12:40:00Z",
+      "is_read": false,
+      "is_draft": false
+    }
+  },
+  {
+    "model": "messaging.message",
+    "pk": 6,
+    "fields": {
+      "conversation": 2,
+      "sender": 10,
+      "recipient": 10,
+      "subject": "",
+      "body": "This message has no subject so you can test the default '(No subject)' fallback in templates.",
+      "created_at": "2026-04-27T12:45:00Z",
+      "sent_at": "2026-04-27T12:45:00Z",
+      "is_read": true,
+      "is_draft": false
+    }
+  }
+]
