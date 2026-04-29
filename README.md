@@ -56,6 +56,9 @@ python manage.py createsuperuser
 
 ### Superuser Details
 
+Needed for testing the messeges function
+
+Username: AdminSuper
 Username: AdminSuper | Password: AdminSuper 
 
 The admin panel is at http://127.0.0.1:8000/admin

@@ -5,54 +5,10 @@
 {% block page_title %}View Message{% endblock %}
 {% block profile_role %}Backend Developer{% endblock %}
 
-{% block extra_head %}
-<style>
-    .message-card {
-        background: white;
-        padding: 28px;
-        max-width: 800px;
-        border: 1px solid #dcdcdc;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    }
-
-    .message-card h1 {
-        margin: 0 0 12px 0;
-        color: #222;
-        font-size: 24px;
-    }
-
-    .meta {
-        color: #666;
-        font-size: 14px;
-        line-height: 1.7;
-    }
-
-    hr {
-        margin: 18px 0;
-        border: none;
-        border-top: 1px solid #e5e5e5;
-    }
-
-    .body-text {
-        font-size: 15px;
-        color: #222;
-        white-space: pre-wrap;
-        line-height: 1.6;
-    }
-
-    .back {
-        display: inline-block;
-        margin-top: 20px;
-        color: #1f2d3d;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-    .back:hover {
-        text-decoration: underline;
-    }
-</style>
+{% block extra_scripts %}
+<link rel="stylesheet" type="text/css" href="{% static 'global.css' %}">
 {% endblock %}
+
 
 {% block content %}
 
