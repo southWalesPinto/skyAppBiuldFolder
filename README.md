@@ -56,9 +56,11 @@ python manage.py createsuperuser
 
 ### Superuser Details
 
-Username: AdminSuper
+|--------|--------------|
+Username: AdminSuper | Password: AdminSuper|
 
-Password: AdminSuper
+The admin panel is at http://127.0.0.1:8000/admin
+Browser: http://127.0.0.1:8000
 
 ## Run (development)
 
