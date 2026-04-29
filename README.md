@@ -1,5 +1,7 @@
 # skyAppBiuld
 
+
+
 Django web app for managing users, teams, projects, meetings, and messaging.
 
 ## Table of Contents
@@ -82,3 +84,11 @@ python manage.py collectstatic --noinput
 - `messaging` — conversations and messages
 - `teams` — team membership and roles
 - `audit` — action logs
+
+
+
+
+Username: AdminSuper
+
+Password: AdminSuper
+
