@@ -10,7 +10,7 @@ Django web app for managing users, teams, projects, meetings, and messaging.
 | Janefa Jeba | Messaging system (conversation, inbox, sent, drafts, compose message) |
 | Mulugeta Zerufael | Scheduling system (meetings, calendar views, meeting management) |
 | Rehan Sohail | Reports system (PDF/Excel generation and reporting features) +  Audit Log|
-
+| Everyone | Teams Page however Thomas Mifsud led it|
 ## Description
 
 - Browse and search all engineering teams, and filters by name or department  
