@@ -1,6 +1,4 @@
-# skyAppBiuld
-
-
+# SkyAppBiuld
 
 Django web app for managing users, teams, projects, meetings, and messaging.
 
@@ -52,6 +50,12 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
+### Superuser Details
+
+Username: AdminSuper
+
+Password: AdminSuper
+
 ## Run (development)
 
 Start the development server:
@@ -73,7 +77,7 @@ python manage.py test
 Collect static files for deployment:
 
 ```bash
-python manage.py collectstatic --noinput
+python manage.py collectstatic
 ```
 
 ## Features
@@ -84,11 +88,3 @@ python manage.py collectstatic --noinput
 - `messaging` — conversations and messages
 - `teams` — team membership and roles
 - `audit` — action logs
-
-
-
-
-Username: AdminSuper
-
-Password: AdminSuper
-
