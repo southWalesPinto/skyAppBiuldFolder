@@ -5,71 +5,8 @@
 {% block page_title %}Sent Messages{% endblock %}
 {% block profile_role %}Backend Developer{% endblock %}
 
-{% block extra_head %}
-<style>
-    .message-card {
-        background: white;
-        padding: 25px;
-        margin-bottom: 18px;
-        border: 1px solid #dcdcdc;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-        display: flex;
-        gap: 20px;
-        align-items: flex-start;
-    }
-
-    .avatar {
-        width: 48px;
-        height: 48px;
-        background: #9aa4b2;
-        border-radius: 50%;
-        flex-shrink: 0;
-    }
-
-    .message-info {
-        flex: 1;
-    }
-
-    .message-info h3 {
-        margin: 0 0 6px 0;
-        font-size: 16px;
-        color: #222;
-    }
-
-    .meta {
-        color: #666;
-        font-size: 13px;
-        margin-bottom: 8px;
-    }
-
-    .preview {
-        color: #555;
-        margin: 0 0 10px 0;
-        font-size: 14px;
-    }
-
-    .date {
-        color: #777;
-        font-size: 13px;
-        white-space: nowrap;
-    }
-
-    .view-link {
-        color: #1f2d3d;
-        font-weight: bold;
-        text-decoration: none;
-        font-size: 13px;
-    }
-
-    .view-link:hover {
-        text-decoration: underline;
-    }
-
-    .empty {
-        color: #777;
-        font-style: italic;
-    }
-</style>
+{% block extra_scripts %}
+<link rel="stylesheet" type="text/css" href="{% static 'global.css' %}">
 {% endblock %}
 
 {% block content %}

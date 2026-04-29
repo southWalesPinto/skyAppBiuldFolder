@@ -3,7 +3,7 @@
       "model": "messaging.conversation",
       "pk": 1,
       "fields": {
-        "participants": [9],
+        "participants": [10],
         "created_at": "2026-04-27T12:00:00Z"
       }
     },
@@ -11,7 +11,7 @@
       "model": "messaging.conversation",
       "pk": 2,
       "fields": {
-        "participants": [9],
+        "participants": [10],
         "created_at": "2026-04-27T12:30:00Z"
       }
     },
@@ -20,8 +20,8 @@
       "pk": 1,
       "fields": {
         "conversation": 1,
-        "sender": 9,
-        "recipient": 9,
+        "sender": 10,
+        "recipient": 10,
         "subject": "Welcome to SkyApp",
         "body": "Welcome adminSuper. This is your first inbox message in the system.",
         "created_at": "2026-04-27T12:05:00Z",
@@ -35,8 +35,8 @@
       "pk": 2,
       "fields": {
         "conversation": 1,
-        "sender": 9,
-        "recipient": 9,
+        "sender": 10,
+        "recipient": 10,
         "subject": "Project Reminder",
         "body": "Reminder: check the messaging coursework requirements and verify all templates are linked correctly.",
         "created_at": "2026-04-27T12:10:00Z",
@@ -50,8 +50,8 @@
       "pk": 3,
       "fields": {
         "conversation": 1,
-        "sender": 9,
-        "recipient": 9,
+        "sender": 10,
+        "recipient": 10,
         "subject": "Draft Feature Check",
         "body": "Test draft saved for adminSuper. Open this in drafts to confirm edit and delete work correctly.",
         "created_at": "2026-04-27T12:15:00Z",
@@ -65,8 +65,8 @@
       "pk": 4,
       "fields": {
         "conversation": 2,
-        "sender": 9,
-        "recipient": 9,
+        "sender": 10,
+        "recipient": 10,
         "subject": "Sent Message Example",
         "body": "This is a seeded sent message so the Sent page has example content for testing.",
         "created_at": "2026-04-27T12:35:00Z",
@@ -80,8 +80,8 @@
       "pk": 5,
       "fields": {
         "conversation": 2,
-        "sender": 9,
-        "recipient": 9,
+        "sender": 10,
+        "recipient": 10,
         "subject": "Unread Test Message",
         "body": "This unread message is here to test inbox bold styling and unread highlighting.",
         "created_at": "2026-04-27T12:40:00Z",
@@ -95,8 +95,8 @@
       "pk": 6,
       "fields": {
         "conversation": 2,
-        "sender": 9,
-        "recipient": 9,
+        "sender": 10,
+        "recipient": 10,
         "subject": "",
         "body": "This message has no subject so you can test the default '(No subject)' fallback in templates.",
         "created_at": "2026-04-27T12:45:00Z",

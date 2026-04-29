@@ -1,73 +1,138 @@
 {% extends "home/base.html" %}
 {% load static %}
 
+
 {% block title %}Messages{% endblock %}
+
 {% block page_title %}Contact Teams{% endblock %}
+
 {% block profile_role %}Backend Developer{% endblock %}
 
-{% block extra_head %}
+{% block extra_scripts %}
+<link rel="stylesheet" type="text/css" href="{% static 'global.css' %}">
 {% endblock %}
 
 {% block content %}
 
+
+
 <h1>Contact Teams</h1>
+
 
 <div class="messages-layout">
 
+
+    <!-- SIDEBAR (RESTORED) -->
+
     <div class="message-sidebar">
+
+
         <a class="new-message-btn" href="{% url 'messaging:compose_message' %}">
+
             + New Message
+
         </a>
 
+
         <div class="message-nav">
+
             <a class="message-nav-item active" href="{% url 'messaging:inbox' %}">
-                <span>Inbox</span>
+
+                Inbox
+
             </a>
+
 
             <a class="message-nav-item" href="{% url 'messaging:sent' %}">
-                <span>Sent</span>
+
+                Sent
+
             </a>
 
+
             <a class="message-nav-item" href="{% url 'messaging:drafts' %}">
-                <span>Drafts</span>
+
+                Drafts
+
             </a>
+
         </div>
+
+
     </div>
+
+
+    <!-- MAIN PANEL -->
 
     <div class="message-list-panel">
 
+
         <div class="search-box">
+
             Search messages...
+
         </div>
 
+
         {% if messages %}
-            {% for msg in messages %}
-                <a class="message-row" href="{% url 'messaging:view_message' msg.id %}">
-                    <div class="avatar">
-                        {{ msg.sender.username|slice:":1"|upper }}
-                    </div>
 
-                    <div class="message-details">
-                        <h3>{{ msg.sender }}</h3>
-                        <strong>{{ msg.subject|default:"(No subject)" }}</strong>
-                        <p>{{ msg.body|truncatewords:12 }}</p>
-                    </div>
+        {% for msg in messages %}
 
-                    <div class="message-date">
-                        {% if msg.sent_at %}
-                            {{ msg.sent_at|date:"M d" }}
-                        {% else %}
-                            {{ msg.created_at|date:"M d" }}
-                        {% endif %}
-                    </div>
-                </a>
-            {% endfor %}
+        <a class="message-row" href="{% url 'messaging:view_message' msg.id %}">
+
+
+            <div class="avatar">
+
+                {{ msg.sender.username|slice:":1"|upper }}
+
+            </div>
+
+
+            <div class="message-details">
+
+                <h3>{{ msg.sender }}</h3>
+
+                <strong>{{ msg.subject|default:"(No subject)" }}</strong>
+
+                <p>{{ msg.body|truncatewords:12 }}</p>
+
+            </div>
+
+
+            <div class="message-date">
+
+                {% if msg.sent_at %}
+
+                {{ msg.sent_at|date:"M d" }}
+
+                {% else %}
+
+                {{ msg.created_at|date:"M d" }}
+
+                {% endif %}
+
+            </div>
+
+
+        </a>
+
+        {% endfor %}
+
         {% else %}
-            <p>No messages in your inbox.</p>
+
+        <div class="empty-state">
+
+            No messages in your inbox.
+
+        </div>
+
         {% endif %}
+
 
     </div>
 
+
 </div>
+
 
 {% endblock %}

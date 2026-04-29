@@ -52,6 +52,8 @@ python manage.py createsuperuser
 
 ### Superuser Details
 
+Needed for testing the messeges function
+
 Username: AdminSuper
 
 Password: AdminSuper
