@@ -50,6 +50,8 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
+### Superuser Details
+
 Username: AdminSuper
 
 Password: AdminSuper
